@@ -13,7 +13,7 @@ namespace Texture_Replacer
     {
         static GameObject Postfix(GameObject __result)
         {
-            string[] textureConfigurations = File.ReadAllLines(PCBSModloader.ModLoader.PatchesPath + "/Parts Texture Replacer.conf");
+            string[] textureConfigurations = File.ReadAllLines(PCBSModloader.ModLoader.PatchesPath + "/Texture Replacer/Parts Texture Replacer.conf");
             MeshRenderer[] meshRenderers = __result.GetComponentsInChildren<MeshRenderer>(true);
             foreach (MeshRenderer meshRenderer in meshRenderers)
             {
@@ -24,7 +24,7 @@ namespace Texture_Replacer
                         string[] textureConfig = textureConfigLine.Split('|');
                         if (meshRenderer.material.mainTexture.name.Equals(textureConfig[0], StringComparison.OrdinalIgnoreCase))
                         {
-                            WWW www = new WWW(("file:///" + PCBSModloader.ModLoader.PatchesPath + "/" + textureConfig[1]).Replace(" ", "%20").Replace("\\", "/"));
+                            WWW www = new WWW(("file:///" + PCBSModloader.ModLoader.PatchesPath + "/Texture Replacer/" + textureConfig[1]).Replace(" ", "%20").Replace("\\", "/"));
                             www.LoadImageIntoTexture(meshRenderer.material.mainTexture as Texture2D);
                         }
                     }
@@ -40,7 +40,7 @@ namespace Texture_Replacer
     {
         static void Postfix()
         {
-            string[] textureConfigurations = File.ReadAllLines(PCBSModloader.ModLoader.PatchesPath + "/Sprite Texture Replacer.conf");
+            string[] textureConfigurations = File.ReadAllLines(PCBSModloader.ModLoader.PatchesPath + "/Texture Replacer/Sprite Texture Replacer.conf");
             GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (GameObject go in rootGameObjects)
             {
@@ -49,13 +49,12 @@ namespace Texture_Replacer
                 {
                     if (image.sprite != null && image.sprite.texture != null)
                     {
-                        File.AppendAllText(PCBSModloader.ModLoader.PatchesPath + "/texdebug.log", image.sprite.texture.name + "\n");
                         foreach (string textureConfigLine in textureConfigurations)
                         {
                             string[] textureConfig = textureConfigLine.Split('|');
                             if (image.sprite.texture.name.Equals(textureConfig[0], StringComparison.OrdinalIgnoreCase))
                             {
-                                WWW www = new WWW(("file:///" + PCBSModloader.ModLoader.PatchesPath + "/" + textureConfig[1]).Replace(" ", "%20").Replace("\\", "/"));
+                                WWW www = new WWW(("file:///" + PCBSModloader.ModLoader.PatchesPath + "/Texture Replacer/" + textureConfig[1]).Replace(" ", "%20").Replace("\\", "/"));
                                 www.LoadImageIntoTexture(image.sprite.texture);
                             }
                         }
