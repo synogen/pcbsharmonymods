@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Show Customer Specs", "Show
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order Templates", "Order Templates\Order Templates.csproj", "{F11214EF-0F36-499A-81B1-320EAE493CD9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable Run And No Restart Install", "Portable Run And No Restart Install\Portable Run And No Restart Install.csproj", "{8EC7B682-4368-4CD7-9EE7-81C60AAA5109}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{FAD7CB19-9BFE-4AA9-A0EB-DDB9FC7E9A03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{F11214EF-0F36-499A-81B1-320EAE493CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F11214EF-0F36-499A-81B1-320EAE493CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F11214EF-0F36-499A-81B1-320EAE493CD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EC7B682-4368-4CD7-9EE7-81C60AAA5109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC7B682-4368-4CD7-9EE7-81C60AAA5109}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC7B682-4368-4CD7-9EE7-81C60AAA5109}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC7B682-4368-4CD7-9EE7-81C60AAA5109}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAD7CB19-9BFE-4AA9-A0EB-DDB9FC7E9A03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAD7CB19-9BFE-4AA9-A0EB-DDB9FC7E9A03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAD7CB19-9BFE-4AA9-A0EB-DDB9FC7E9A03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAD7CB19-9BFE-4AA9-A0EB-DDB9FC7E9A03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
