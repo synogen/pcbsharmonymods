@@ -15,21 +15,17 @@ namespace Order_Templates
             this.LoadContentFromFile();
         }
 
+        private static TemplateManager singletonInstance;
+
         public static TemplateManager Instance
         {
             get
             {
-                object obj = TemplateManager.padlock;
-                TemplateManager result;
-                lock (obj)
+                if (TemplateManager.singletonInstance == null)
                 {
-                    if (TemplateManager.instance == null)
-                    {
-                        TemplateManager.instance = new TemplateManager();
-                    }
-                    result = TemplateManager.instance;
+                    TemplateManager.singletonInstance = new TemplateManager();
                 }
-                return result;
+                return singletonInstance;
             }
         }
 
@@ -70,7 +66,7 @@ namespace Order_Templates
         private void SaveContentToFile()
         {
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(PCBSModloader.ModLoader.PatchesPath + "/Order Templates/shoppingTemplates.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+            Stream stream = new FileStream(ModloaderMod.Instance.Modpath + "/shoppingTemplates.bin", FileMode.Create, FileAccess.Write, FileShare.None);
             formatter.Serialize(stream, this.templates);
             stream.Close();
         }
@@ -78,10 +74,10 @@ namespace Order_Templates
 
         private void LoadContentFromFile()
         {
-            if (File.Exists(PCBSModloader.ModLoader.PatchesPath + "/Order Templates/shoppingTemplates.bin"))
+            if (File.Exists(ModloaderMod.Instance.Modpath + "/shoppingTemplates.bin"))
             {
                 IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(PCBSModloader.ModLoader.PatchesPath + "/Order Templates/shoppingTemplates.bin", FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);
+                Stream stream = new FileStream(ModloaderMod.Instance.Modpath + "/Order Templates/shoppingTemplates.bin", FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);
                 this.templates = (Dictionary<string, List<string>>)formatter.Deserialize(stream);
                 stream.Close();
             }
