@@ -16,7 +16,7 @@ namespace Prefab_Patcher
     {
         static GameObject Postfix(GameObject __result, PartDesc part)
         {
-            AssetBundle assetBundle = AssetBundle.LoadFromFile(PCBSModloader.ModLoader.AssetBundlesPath + "/titanx");
+            AssetBundle assetBundle = AssetBundle.LoadFromFile(ModloaderMod.Instance.Modpath + "/titanx");
 
             if ("GPU_GIGABYTE_10".Equals(part.m_id))
             {
