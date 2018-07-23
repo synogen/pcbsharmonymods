@@ -4,8 +4,8 @@ Shows customer's PC specs attached to their job E-Mails for diagnose, fix and up
 ## Requirements
 Requires FusioN.'s modloader for PCBS to be installed ( https://github.com/fusiion/PCBSModloader/releases )
 
-## Install
-1. Extract everything in the archive to the main directory of PC Building Simulator, overwrite if necessary
+## Installation
+Extract the mod folder in the archive to <PCBS folder>\Mods
 
 ## Compatibility
 Should work with all other mods as long as the PCBS modloader is installed. You should use a clean Assembly-CSharp-firstpass.dll with only the modloader installed.

@@ -13,8 +13,8 @@ For every template there should be 3 buttons:
 	- "Add from" to add the template items to the current shopping cart
 	- "Remove" to remove the template
 
-## Requirements
-Requires FusioN.'s modloader for PCBS to be installed ( https://github.com/fusiion/PCBSModloader/releases ) 
+## Installation
+Extract the mod folder in the archive to <PCBS folder>\Mods
 
 ## Install
 1. Extract everything in the archive to the main directory of PC Building Simulator, overwrite if necessary
