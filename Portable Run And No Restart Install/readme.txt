@@ -3,7 +3,7 @@ Allows you to run programs directly from the USB stick by providing another tab 
 Also makes installing and uninstalling programs not require a restart anymore, they immediately appear on the desktop/get removed again. 
 
 ## Requirements
-Requires FusioN.'s modloader for PCBS to be installed.
+Requires FusioN.'s modloader for PCBS to be installed ( https://github.com/fusiion/PCBSModloader/releases )
 
 ## Install
 1. Extract everything in the archive to the main directory of PC Building Simulator, overwrite if necessary

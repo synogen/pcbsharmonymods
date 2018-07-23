@@ -3,7 +3,7 @@ This is a mod that allows you to overwrite pretty much any texture in the game w
 See the Quick Start section below on how to make your texture replacements with this!
 
 ## Requirements
-Requires FusioN.'s modloader for PCBS to be installed.
+Requires FusioN.'s modloader for PCBS to be installed ( https://github.com/fusiion/PCBSModloader/releases )
 
 ## Install
 1. Extract everything in the archive to the main directory of PC Building Simulator, overwrite if necessary

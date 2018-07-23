@@ -3,7 +3,7 @@ Shows how many of an item you already have in your inventory or in your storage/
 Stock display is color coded, default range is 0-10 items where 0 is red and 10 is green, this can be customized in "Show Inventory Stock In Shop.conf" where you can change the number from which on it shows green.
 
 ## Requirements
-Requires FusioN.'s modloader for PCBS to be installed.
+Requires FusioN.'s modloader for PCBS to be installed ( https://github.com/fusiion/PCBSModloader/releases )
 
 ## Install
 1. Extract everything in the archive to the main directory of PC Building Simulator, overwrite if necessary

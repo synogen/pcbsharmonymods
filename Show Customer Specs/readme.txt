@@ -2,7 +2,7 @@
 Shows customer's PC specs attached to their job E-Mails for diagnose, fix and upgrade jobs so you know what to expect.
 
 ## Requirements
-Requires FusioN.'s modloader for PCBS to be installed.
+Requires FusioN.'s modloader for PCBS to be installed ( https://github.com/fusiion/PCBSModloader/releases )
 
 ## Install
 1. Extract everything in the archive to the main directory of PC Building Simulator, overwrite if necessary
