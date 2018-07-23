@@ -83,13 +83,6 @@ namespace Order_Templates
             }
         }
 
-
-        private static TemplateManager instance = null;
-
-
-        private static readonly object padlock = new object();
-
-
         private Dictionary<string, List<string>> templates;
 
         private static T DeepClone<T>(T obj)

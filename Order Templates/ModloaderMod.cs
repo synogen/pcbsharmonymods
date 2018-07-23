@@ -20,7 +20,5 @@ namespace Order_Templates
             }
         }
 
-        public string Modpath { get { return ModLoader.ModsPath + "/" + ID; } }
-
     }
 }
