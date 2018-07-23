@@ -16,9 +16,6 @@ For every template there should be 3 buttons:
 ## Installation
 Extract the mod folder in the archive to <PCBS folder>\Mods
 
-## Install
-1. Extract everything in the archive to the main directory of PC Building Simulator, overwrite if necessary
-
 ## Compatibility
 Should work with all other mods as long as the PCBS modloader is installed. You should use a clean Assembly-CSharp-firstpass.dll with only the modloader installed.
 Code changes in future versions of PC Building Simulator may break the mod.
