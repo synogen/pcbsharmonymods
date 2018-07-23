@@ -12,6 +12,13 @@ namespace Utils
             return (T)field.GetValue(instance);
         }
 
+        public static void Set<T>(string varname, System.Object instance, T value)
+        {
+            Type type = instance.GetType();
+            FieldInfo field = type.GetField(varname, BindingFlags.NonPublic | BindingFlags.Instance);
+            field.SetValue(instance, value);
+        }
+
         public static void Run(string methodname, System.Object instance)
         {
             Run(methodname, instance, new object[] { });
