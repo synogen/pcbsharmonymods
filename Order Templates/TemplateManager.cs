@@ -77,7 +77,7 @@ namespace Order_Templates
             if (File.Exists(ModloaderMod.Instance.Modpath + "/shoppingTemplates.bin"))
             {
                 IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(ModloaderMod.Instance.Modpath + "/Order Templates/shoppingTemplates.bin", FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);
+                Stream stream = new FileStream(ModloaderMod.Instance.Modpath + "/shoppingTemplates.bin", FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);
                 this.templates = (Dictionary<string, List<string>>)formatter.Deserialize(stream);
                 stream.Close();
             }

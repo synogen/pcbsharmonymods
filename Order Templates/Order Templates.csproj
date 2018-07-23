@@ -70,6 +70,7 @@
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{fad7cb19-9bfe-4aa9-a0eb-ddb9fc7e9a03}</Project>
       <Name>Utils</Name>
+      <Aliases>global</Aliases>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
