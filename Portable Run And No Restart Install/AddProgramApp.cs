@@ -1,4 +1,6 @@
-﻿using Harmony;
+﻿extern alias PRANRIUtils;
+
+using Harmony;
 using I2.Loc;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using Utils;
+using PRANRIUtils.Utils;
 
 namespace Portable_Run_And_No_Restart_Install
 {
@@ -15,13 +17,32 @@ namespace Portable_Run_And_No_Restart_Install
 
         private AddProgramApp addProgramApp;
 
-        public static Button portableButton;
+        public Button portableButton;
 
-        public static int addMode;
+        public int addMode;
 
-        public AddProgramAppLogic(AddProgramApp addProgramApp)
+        private static Dictionary<AddProgramApp, AddProgramAppLogic> addProgramAppLogicInstances = new Dictionary<AddProgramApp, AddProgramAppLogic>();
+
+        public static AddProgramAppLogic InstanceFor(AddProgramApp addProgramApp)
         {
+            AddProgramAppLogic instance = null;
+            if (!addProgramAppLogicInstances.ContainsKey(addProgramApp))
+            {
+                instance = new AddProgramAppLogic(addProgramApp);
+                addProgramAppLogicInstances.Add(addProgramApp, instance);
+                return instance;
+            }
+            addProgramAppLogicInstances.TryGetValue(addProgramApp, out instance);
+            return instance;
+        }
+
+        private AddProgramAppLogic(AddProgramApp addProgramApp) {
             this.addProgramApp = addProgramApp;
+        }
+
+        public void Init()
+        {
+            ChangeUI();
         }
 
         private void ChangeUI()
@@ -63,7 +84,7 @@ namespace Portable_Run_And_No_Restart_Install
             return false;
         }
 
-        static IEnumerator Postfix(AddProgramApp __instance, OSProgramDesc desc, bool ___m_dayEnded, OS ___m_os)
+        static IEnumerator Postfix(IEnumerator __result, AddProgramApp __instance, OSProgramDesc desc, bool ___m_dayEnded, OS ___m_os)
         {
             ___m_dayEnded = false;
             ReflectionUtils.Run("ShowProgressDialog", __instance, new object[] { ScriptLocalization.AddPrograms.INSTALLING, desc });
@@ -76,8 +97,8 @@ namespace Portable_Run_And_No_Restart_Install
                 desc.m_id
             }.ToArray();
             __instance.m_installPopup.SetActive(false);
-            ReflectionUtils.Run("AddProgram", ___m_os, new object[] { desc.m_id });
-            ReflectionUtils.Run("UpdatePrograms", ___m_os);
+            OSLogic.InstanceFor(___m_os).AddProgram(desc.m_id);
+            OSLogic.InstanceFor(___m_os).UpdatePrograms();
             ReflectionUtils.Run("UpdateProgramList", __instance);
 
             yield break;
@@ -93,7 +114,7 @@ namespace Portable_Run_And_No_Restart_Install
             return false;
         }
 
-        static IEnumerator Postfix(AddProgramApp __instance, OSProgramDesc desc, bool ___m_dayEnded, OS ___m_os)
+        static IEnumerator Postfix(IEnumerator __result, AddProgramApp __instance, OSProgramDesc desc, bool ___m_dayEnded, OS ___m_os)
         {
             ___m_dayEnded = false;
             ReflectionUtils.Run("ShowProgressDialog", __instance, new object[] { ScriptLocalization.AddPrograms.REMOVING, desc });
@@ -105,8 +126,8 @@ namespace Portable_Run_And_No_Restart_Install
             list.Remove(desc.m_id);
             software.m_programs = list.ToArray();
             __instance.m_installPopup.SetActive(false);
-            ReflectionUtils.Run("RemoveProgram", ___m_os, new object[] { desc.m_id });
-            ReflectionUtils.Run("UpdatePrograms", ___m_os);
+            OSLogic.InstanceFor(___m_os).RemoveProgram(desc.m_id);
+            OSLogic.InstanceFor(___m_os).UpdatePrograms();
             ReflectionUtils.Run("UpdateProgramList", __instance);
 
             yield break;
@@ -122,13 +143,10 @@ namespace Portable_Run_And_No_Restart_Install
             return false;
         }
 
-        static void Postfix(AddProgramApp __instance, int ___m_addMode, int mode)
+        static void Postfix(AddProgramApp __instance, bool add)
         {
-            AddProgramAppLogic.portableButton.interactable = (mode != 1);
-            __instance.m_addButton.interactable = (mode != 2);
-            __instance.m_removeButton.interactable = (mode != 3);
-            AddProgramAppLogic.addMode = mode;
-            ReflectionUtils.Run("ShowPrograms", __instance);
+            int intMode = add ? 2 : 3;
+            AddProgramAppLogic.InstanceFor(__instance).SetMode(intMode);
         }
     }
 
@@ -158,7 +176,7 @@ namespace Portable_Run_And_No_Restart_Install
                     isUsbDriveInserted = true;
                 }
             }
-            if (AddProgramAppLogic.addMode == 1)
+            if (AddProgramAppLogic.InstanceFor(__instance).addMode == 1)
             {
                 if (!isUsbDriveInserted)
                 {
@@ -178,7 +196,7 @@ namespace Portable_Run_And_No_Restart_Install
                 }
                 return;
             }
-            if (AddProgramAppLogic.addMode == 2)
+            if (AddProgramAppLogic.InstanceFor(__instance).addMode == 2)
             {
                 if (!isUsbDriveInserted)
                 {
@@ -205,7 +223,7 @@ namespace Portable_Run_And_No_Restart_Install
                     return;
                 }
             }
-            else if (AddProgramAppLogic.addMode == 3)
+            else if (AddProgramAppLogic.InstanceFor(__instance).addMode == 3)
             {
                 bool uninstallablePrograms = false;
                 foreach (OSProgramDesc prog in PartsDatabase.GetAllPrograms())

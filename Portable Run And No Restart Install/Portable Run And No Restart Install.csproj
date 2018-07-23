@@ -37,6 +37,10 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>D:\Games\PC Building Simulator 0.8.6.0\PCBS_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+    <Reference Include="PCBSModloader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Games\PC Building Simulator 0.8.6.0\PCBS_Data\Managed\PCBSModloader.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddProgramApp.cs" />
+    <Compile Include="ModloaderMod.cs" />
     <Compile Include="OSLogic.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,7 +68,9 @@
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{fad7cb19-9bfe-4aa9-a0eb-ddb9fc7e9a03}</Project>
       <Name>Utils</Name>
+      <Aliases>PRANRIUtils</Aliases>
     </ProjectReference>
   </ItemGroup>
+
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

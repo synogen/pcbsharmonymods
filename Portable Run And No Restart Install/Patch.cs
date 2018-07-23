@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using System;
 
 namespace Portable_Run_And_No_Restart_Install
 {
@@ -6,14 +7,14 @@ namespace Portable_Run_And_No_Restart_Install
     [HarmonyPatch("Start")]
     class AddProgramAppStartPatch
     {
-        static bool Prefix()
+        static void Prefix(AddProgramApp __instance)
         {
-            return true;
+            AddProgramAppLogic.InstanceFor(__instance).Init();
         }
 
         static void Postfix(AddProgramApp __instance)
         {
-            new AddProgramAppLogic(__instance);
+            AddProgramAppLogic.InstanceFor(__instance).SetPortableMode();
         }
     }
 
@@ -21,14 +22,9 @@ namespace Portable_Run_And_No_Restart_Install
     [HarmonyPatch("Awake")]
     class OSAwakePatch
     {
-        static bool Prefix()
-        {
-            return true;
-        }
-
         static void Postfix(OS __instance)
         {
-            new OSLogic(__instance);
+            OSLogic.InstanceFor(__instance).Init();
         }
     }
 }

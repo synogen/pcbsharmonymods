@@ -1,7 +1,9 @@
-﻿using System;
+﻿extern alias PRANRIUtils;
+
+using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
+using PRANRIUtils.Utils;
 
 namespace Portable_Run_And_No_Restart_Install
 {
@@ -9,28 +11,42 @@ namespace Portable_Run_And_No_Restart_Install
     {
         private OS os;
 
-        public OSLogic(OS os)
+        private static Dictionary<OS, OSLogic> OSLogicInstances = new Dictionary<OS, OSLogic>();
+
+        public static OSLogic InstanceFor(OS os)
+        {
+            OSLogic instance = null;
+            if (!OSLogicInstances.ContainsKey(os))
+            {
+                instance = new OSLogic(os);
+                OSLogicInstances.Add(os, instance);
+                return instance;
+            }
+            OSLogicInstances.TryGetValue(os, out instance);
+            return instance;
+        }
+
+        private OSLogic(OS os)
         {
             this.os = os;
         }
 
-        internal void AddProgram(string program)
+        public void Init()
         {
-            string[] programsInstalled = Get<string[]>("m_programsInstalled", os);
-            Array.Resize<string>(ref programsInstalled, programsInstalled.Length + 1);
-            programsInstalled[programsInstalled.Length - 1] = program;
         }
 
-        private T Get<T>(string varname, System.Object instance)
+        internal void AddProgram(string program)
         {
-            Type shopType = typeof(OS);
-            FieldInfo field = shopType.GetField(varname, BindingFlags.NonPublic | BindingFlags.Instance);
-            return (T)field.GetValue(os);
+            string[] programsInstalled = ReflectionUtils.Get<string[]>("m_programsInstalled", os);
+            Array.Resize<string>(ref programsInstalled, programsInstalled.Length + 1);
+            programsInstalled[programsInstalled.Length - 1] = program;
+            ReflectionUtils.Set<string[]>("m_programsInstalled", os, programsInstalled);
         }
+
 
         internal void RemoveProgram(string program)
         {
-            string[] programsInstalled = Get<string[]>("m_programsInstalled", os);
+            string[] programsInstalled = ReflectionUtils.Get<string[]>("m_programsInstalled", os);
             string[] programs = new string[programsInstalled.Length - 1];
             int index = Array.IndexOf<string>(programsInstalled, program);
             if (index > 0)
@@ -42,7 +58,7 @@ namespace Portable_Run_And_No_Restart_Install
                 Array.Copy(programsInstalled, index + 1, programs, index, programsInstalled.Length - index - 1);
             }
             Array.Resize<string>(ref programsInstalled, programsInstalled.Length - 1);
-            Array.Copy(programs, programsInstalled, programsInstalled.Length);
+            ReflectionUtils.Set<string[]>("m_programsInstalled", os, programs);
         }
 
 
@@ -56,8 +72,8 @@ namespace Portable_Run_And_No_Restart_Install
                     UnityEngine.Object.Destroy(programIcon);
                 }
             }
-            string[] programsInstalled = Get<string[]>("m_programsInstalled", os);
-            List<ProgramIcon> programIcons = Get<List<ProgramIcon>>("m_icons", os);
+            string[] programsInstalled = ReflectionUtils.Get<string[]>("m_programsInstalled", os);
+            List<ProgramIcon> programIcons = ReflectionUtils.Get<List<ProgramIcon>>("m_icons", os);
             programIcons.Clear();
             float num = 100f;
             Rect rect = (os.transform as RectTransform).rect;
