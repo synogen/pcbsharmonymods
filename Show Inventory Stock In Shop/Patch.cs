@@ -43,8 +43,12 @@ namespace Show_Inventory_Stock_In_Shop
 
                 }
 
-                string[] config = File.ReadAllLines(PCBSModloader.ModLoader.PatchesPath + "/Show Inventory Stock In Shop/Show Inventory Stock In Shop.conf");
-                float max = float.Parse(config[0].Split('=')[1]);
+                float max = 10f;
+                if (File.Exists(ModloaderMod.Instance.Modpath + "/Show Inventory Stock In Shop.conf"))
+                {
+                    string[] config = File.ReadAllLines(ModloaderMod.Instance.Modpath + "/Show Inventory Stock In Shop.conf");
+                    max = float.Parse(config[0].Split('=')[1]);
+                }
 
                 Color32 color = Color.Lerp(Color.red, Color.green, (Convert.ToSingle(i) / max) > 1f ? 1f : Convert.ToSingle(i) / max);
                 string colorString = "#" + color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2") + color.a.ToString("X2");
