@@ -11,14 +11,9 @@ namespace Utils
             Button button = UnityEngine.Object.Instantiate<Button>(sourceButton, sourceButton.transform.parent);
             button.transform.localPosition = new Vector3(sourceButton.transform.localPosition.x + offsetFromSourceX, sourceButton.transform.localPosition.y + offsetFromSourceY, sourceButton.transform.localPosition.z);
             button.GetComponent<RectTransform>().sizeDelta = new Vector2(button.GetComponent<RectTransform>().sizeDelta.x + sizeOffsetX, button.GetComponent<RectTransform>().sizeDelta.y + sizeOffsetY);
-            button.colors = new ColorBlock
-            {
-                normalColor = new Color(0.45f, 0.45f, 1f),
-                highlightedColor = new Color(0.5f, 0.5f, 1f),
-                disabledColor = new Color(0.7f, 0.7f, 1f),
-                pressedColor = new Color(0.4f, 0.4f, 1f),
-                colorMultiplier = 1f
-            };
+            Button internalButton = button.GetComponent<Button>();
+            button.colors = sourceButton.colors;
+            internalButton.transition = sourceButton.transition;
             button.GetComponentInChildren<Text>().text = label;
             button.onClick = new Button.ButtonClickedEvent();
             button.interactable = true;
