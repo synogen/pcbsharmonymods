@@ -1,5 +1,7 @@
 ﻿## Texture Replacer for PC Building Simulator
-This is a mod that allows you to overwrite pretty much any texture in the game with your own. As an example it overwrites a few of the desktop icons with Windows 98 versions and it changes the Ryzen 7 1700 texture to a 486DX. 
+This is a mod that allows you to overwrite some of the textures in the game with your own. Currently the textures for all parts and all icons/backgrounds for OmegaOS are supported.
+
+As an example it overwrites a few of the desktop icons with Windows 98 versions and it changes the Ryzen 7 1700 texture to a 486DX. 
 See the Quick Start section below on how to make your own texture replacements with this!
 
 ## Requirements

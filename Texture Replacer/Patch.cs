@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace Texture_Replacer
 {
@@ -91,4 +92,32 @@ namespace Texture_Replacer
         }
     }
 
+    [HarmonyPatch(typeof(Walk))]
+    [HarmonyPatch("Move")]
+    class PatchLevelLoad
+    {
+        static void Postfix()
+        {
+            //foreach (GameObject go in scene.GetRootGameObjects())
+            //{
+                foreach (SpriteRenderer o in UnityEngine.Object.FindObjectsOfType<SpriteRenderer>())
+                {
+                    File.AppendAllText(ModloaderMod.Instance.Modpath + "/sr_scenetextures.log", o.sprite.texture.name + "\n");
+                    if (ConfigHolder.Instance.imageReplacements.ContainsKey(o.sprite.texture.name))
+                    {
+                        ConfigHolder.Instance.imageReplacements.GetValueSafe(o.sprite.texture.name).LoadImageIntoTexture(o.sprite.texture);
+                    }
+                }
+            foreach (Image o in UnityEngine.Object.FindObjectsOfType<Image>())
+            {
+                File.AppendAllText(ModloaderMod.Instance.Modpath + "/image_scenetextures.log", o.sprite.texture.name + "\n");
+                if (ConfigHolder.Instance.imageReplacements.ContainsKey(o.sprite.texture.name))
+                {
+                    ConfigHolder.Instance.imageReplacements.GetValueSafe(o.sprite.texture.name).LoadImageIntoTexture(o.sprite.texture);
+                }
+            }
+            //}
+
+        }
+    }
 }
