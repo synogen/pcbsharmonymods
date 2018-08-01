@@ -92,32 +92,26 @@ namespace Texture_Replacer
         }
     }
 
-    [HarmonyPatch(typeof(Walk))]
-    [HarmonyPatch("Move")]
+    [HarmonyPatch(typeof(LevelLoadPersistency))]
+    [HarmonyPatch("OnSceneLoaded")]
     class PatchLevelLoad
     {
-        static void Postfix()
+        static void Postfix(Scene scene)
         {
-            //foreach (GameObject go in scene.GetRootGameObjects())
-            //{
-                foreach (SpriteRenderer o in UnityEngine.Object.FindObjectsOfType<SpriteRenderer>())
-                {
-                    File.AppendAllText(ModloaderMod.Instance.Modpath + "/sr_scenetextures.log", o.sprite.texture.name + "\n");
-                    if (ConfigHolder.Instance.imageReplacements.ContainsKey(o.sprite.texture.name))
-                    {
-                        ConfigHolder.Instance.imageReplacements.GetValueSafe(o.sprite.texture.name).LoadImageIntoTexture(o.sprite.texture);
-                    }
-                }
-            foreach (Image o in UnityEngine.Object.FindObjectsOfType<Image>())
+            foreach (Renderer o in UnityEngine.Object.FindObjectsOfType<Renderer>())
             {
-                File.AppendAllText(ModloaderMod.Instance.Modpath + "/image_scenetextures.log", o.sprite.texture.name + "\n");
-                if (ConfigHolder.Instance.imageReplacements.ContainsKey(o.sprite.texture.name))
+                foreach (Material m in o.materials)
                 {
-                    ConfigHolder.Instance.imageReplacements.GetValueSafe(o.sprite.texture.name).LoadImageIntoTexture(o.sprite.texture);
-                }
-            }
-            //}
+                    if (m.mainTexture != null)
+                    {
+                        if (ConfigHolder.Instance.imageReplacements.ContainsKey(m.mainTexture.name))
+                        {
+                            ConfigHolder.Instance.imageReplacements.GetValueSafe(m.mainTexture.name).LoadImageIntoTexture(m.mainTexture as Texture2D);
+                        }
 
+                    }
+                }   
+            }
         }
     }
 }
