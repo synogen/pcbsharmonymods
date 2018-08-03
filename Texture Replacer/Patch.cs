@@ -27,6 +27,10 @@ namespace Texture_Replacer
 
         public Dictionary<string, WWW> imageReplacements = new Dictionary<string, WWW>();
 
+        public Dictionary<string, Color32> materialColors = new Dictionary<string, Color32>();
+
+        public Dictionary<string, Material> materialReplacements = new Dictionary<string, Material>();
+
         private ConfigHolder()
         {
             File.Delete(ModloaderMod.Instance.Modpath + "/replacer.log");
@@ -52,6 +56,34 @@ namespace Texture_Replacer
                     File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", "Added replacement configuration for " + imageConfig[0] + " => " + imageConfig[1] + "\n");
                 }
             }
+
+            string[] materialConfigurations = File.ReadAllLines(ModloaderMod.Instance.Modpath + "/Material Colors.conf");
+            foreach (string materialConfiguration in materialConfigurations)
+            {
+                string[] materialConfig = materialConfiguration.Split('|');
+                if (materialConfig.Length == 2)
+                {
+                    string[] colorBytes = materialConfig[1].Split(',');
+                    materialColors.Add(materialConfig[0], new Color32(
+                        byte.Parse(colorBytes[0]),
+                        byte.Parse(colorBytes[1]),
+                        byte.Parse(colorBytes[2]),
+                        byte.Parse(colorBytes[3])
+                        ));
+                    File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", "Added color configuration for " + materialConfig[0] + " => " + materialConfig[1] + "\n");
+                }
+            }
+
+            if (File.Exists(ModloaderMod.Instance.Modpath + "/materials.assetbundle"))
+            {
+                AssetBundle materialBundle = AssetBundle.LoadFromFile(ModloaderMod.Instance.Modpath + "/materials.assetbundle");
+
+                foreach (Material material in materialBundle.LoadAllAssets<Material>())
+                {
+                    materialReplacements.Add(material.name, material);
+                    File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", "Added replacement configuration for " + material.name + " => " + material + "\n");
+                }
+            }
         }
     }
 
@@ -70,6 +102,19 @@ namespace Texture_Replacer
                     {
                         ConfigHolder.Instance.textureReplacements.GetValueSafe(meshRenderer.material.mainTexture.name).LoadImageIntoTexture(meshRenderer.material.mainTexture as Texture2D);
                     }
+                }
+                foreach (Material material in meshRenderer.materials)
+                {
+                    string materialName = material.name.Replace("(Instance)", "").Trim();
+                    if (ConfigHolder.Instance.materialColors.ContainsKey(materialName))
+                    {
+                        material.color = ConfigHolder.Instance.materialColors.GetValueSafe(materialName);
+                    }
+                    if (ConfigHolder.Instance.materialReplacements.ContainsKey(materialName))
+                    {
+                        material.CopyPropertiesFromMaterial(ConfigHolder.Instance.materialReplacements.GetValueSafe(materialName));
+                    }
+
                 }
             }
             return __result;
@@ -96,21 +141,33 @@ namespace Texture_Replacer
     [HarmonyPatch("OnSceneLoaded")]
     class PatchLevelLoad
     {
+        
         static void Postfix(Scene scene)
         {
             foreach (Renderer o in UnityEngine.Object.FindObjectsOfType<Renderer>())
             {
-                foreach (Material m in o.materials)
+                foreach (Material material in o.materials)
                 {
-                    if (m.mainTexture != null)
+                    if (material.mainTexture != null)
                     {
-                        if (ConfigHolder.Instance.imageReplacements.ContainsKey(m.mainTexture.name))
+                        if (ConfigHolder.Instance.imageReplacements.ContainsKey(material.mainTexture.name))
                         {
-                            ConfigHolder.Instance.imageReplacements.GetValueSafe(m.mainTexture.name).LoadImageIntoTexture(m.mainTexture as Texture2D);
+                            ConfigHolder.Instance.imageReplacements.GetValueSafe(material.mainTexture.name).LoadImageIntoTexture(material.mainTexture as Texture2D);
                         }
 
                     }
-                }   
+                    string materialName = material.name.Replace("(Instance)", "").Trim();
+                    if (ConfigHolder.Instance.materialColors.ContainsKey(materialName))
+                    {
+                        material.color = ConfigHolder.Instance.materialColors.GetValueSafe(materialName);
+                    }
+                    if (ConfigHolder.Instance.materialReplacements.ContainsKey(materialName))
+                    {
+                        material.CopyPropertiesFromMaterial(ConfigHolder.Instance.materialReplacements.GetValueSafe(materialName));
+                    }
+
+                }
+                
             }
         }
     }
