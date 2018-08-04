@@ -93,17 +93,17 @@ namespace Texture_Replacer
     {
         static GameObject Postfix(GameObject __result)
         {
-            MeshRenderer[] meshRenderers = __result.GetComponentsInChildren<MeshRenderer>(true);
-            foreach (MeshRenderer meshRenderer in meshRenderers)
+            Renderer[] renderers = __result.GetComponentsInChildren<Renderer>(true);
+            foreach (Renderer renderer in renderers)
             {
-                if (meshRenderer.material.mainTexture != null && typeof(Texture2D).IsInstanceOfType(meshRenderer.material.mainTexture))
+                if (renderer.material.mainTexture != null && typeof(Texture2D).IsInstanceOfType(renderer.material.mainTexture))
                 {
-                    if (ConfigHolder.Instance.textureReplacements.ContainsKey(meshRenderer.material.mainTexture.name))
+                    if (ConfigHolder.Instance.textureReplacements.ContainsKey(renderer.material.mainTexture.name))
                     {
-                        ConfigHolder.Instance.textureReplacements.GetValueSafe(meshRenderer.material.mainTexture.name).LoadImageIntoTexture(meshRenderer.material.mainTexture as Texture2D);
+                        ConfigHolder.Instance.textureReplacements.GetValueSafe(renderer.material.mainTexture.name).LoadImageIntoTexture(renderer.material.mainTexture as Texture2D);
                     }
                 }
-                foreach (Material material in meshRenderer.materials)
+                foreach (Material material in renderer.materials)
                 {
                     string materialName = material.name.Replace("(Instance)", "").Trim();
                     if (ConfigHolder.Instance.materialColors.ContainsKey(materialName))
@@ -114,7 +114,6 @@ namespace Texture_Replacer
                     {
                         material.CopyPropertiesFromMaterial(ConfigHolder.Instance.materialReplacements.GetValueSafe(materialName));
                     }
-
                 }
             }
             return __result;
@@ -167,7 +166,6 @@ namespace Texture_Replacer
                     }
 
                 }
-                
             }
         }
     }
