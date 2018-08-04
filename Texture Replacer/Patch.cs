@@ -3,7 +3,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 
 namespace Texture_And_Material_Replacer
 {
