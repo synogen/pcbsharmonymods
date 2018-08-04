@@ -1,9 +1,12 @@
-﻿## Texture Replacer for PC Building Simulator
-This is a mod that allows you to overwrite most of the textures in the game with your own. Currently the textures for all parts, all icons/backgrounds for OmegaOS and stuff like posters and floor textures are supported.
-If you find a texture that can't be replaced with this feel free to let me know.
+﻿## Texture And Material Replacer for PC Building Simulator
+This is a mod that allows you to overwrite most of the textures and some of the materials in the game with your own. Currently the textures and materials for all parts, all icons/backgrounds for OmegaOS and 
+stuff like posters and floor textures are supported.
+If you find a texture or material that can't be replaced with this feel free to let me know.
 
-As an example it replaces a few of the desktop icons and the default background with Windows 98 versions and it changes the Ryzen 7 1700 texture to a 486DX. Also the flooring is replaced.
-See the Quick Start section below on how to make your own texture replacements with this!
+As an example it replaces a few of the desktop icons and the default background with Windows 98 versions and it changes the Ryzen 7 1700 texture to a 486DX. Also the flooring is replaced with a brighter wood 
+and the walls and ceiling have gotten a different color to show how material replacing works.
+
+See the Quick Start section below on how to make your own texture/material replacements with this!
 
 ## Requirements
 Requires FusioN.'s modloader for PCBS to be installed ( https://github.com/fusiion/PCBSModloader/releases )
@@ -30,3 +33,17 @@ The Harmony C# patching library ( https://github.com/pardeike/Harmony )
 	4a. Part texture: Open "Parts Texture Replacer.conf" with a text editor and add a line <texture name>|<your new texture file> so as an example it will look like "Ryzen 5 Quad Core 1400|newCpu.png"
 	4b. Icon/poster/image: Open "Image Replacer.conf" with a text editor and add a line <texture name>|<your new texture file> so as an example it will look like "icon_email|myMail.jpg"
 5. Start the game and try it out!
+
+## Material Replacements
+For materials the general process is the same as for textures. To find materials I would recommend using UABE ( https://github.com/DerPopo/UABE ) instead of AssetStudio though,
+since AssetStudio doesn't show materials by default, it has no preview for them and it doesn't seem to list them by name like UABE does.
+There are two possible ways to change materials right now:
+1. Use the "Material Colors.conf" file to change the main color of a material. Just like in the other conf files you write the material name first, then seperated by a | come
+four comma seperated values representing the RGBA color (Red, Green, Blue, Alpha) with values ranging from 0 to 255 for each of them, here's an example:
+Wall_Mat|255,0,0,255
+This would color the wall material red with 100% opacity.
+
+2. You can even create an asset bundle in Unity with materials you define yourself. This is unsupported and for advanced users only.
+If you decide to try this give the material in Unity the same name as the material in PCBS that you want to overwrite. Save the asset bundle as "materials.assetbundle" in the mod folder.
+I do not know if the manifest file is required but I always copied it as well during my tests.
+I have not gotten custom shaders to work using this method and it seems rather buggy right now so you're on your own with that.

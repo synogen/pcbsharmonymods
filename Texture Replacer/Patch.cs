@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-namespace Texture_Replacer
+namespace Texture_And_Material_Replacer
 {
     class ConfigHolder
     {
@@ -136,12 +136,12 @@ namespace Texture_Replacer
         }
     }
 
-    [HarmonyPatch(typeof(LevelLoadPersistency))]
-    [HarmonyPatch("OnSceneLoaded")]
+    [HarmonyPatch(typeof(SaveLoadSystem))]
+    [HarmonyPatch("LoadSaveGame")]
     class PatchLevelLoad
     {
         
-        static void Postfix(Scene scene)
+        static void Postfix()
         {
             foreach (Renderer o in UnityEngine.Object.FindObjectsOfType<Renderer>())
             {

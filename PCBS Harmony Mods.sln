@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Show Inventory Stock In Shop", "Show Inventory Stock In Shop\Show Inventory Stock In Shop.csproj", "{03CB2381-2033-438A-B4CD-88F57FDCFDBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texture Replacer", "Texture Replacer\Texture Replacer.csproj", "{87E1E6BB-3763-457C-9413-8815406A66E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texture And Material Replacer", "Texture Replacer\Texture And Material Replacer.csproj", "{87E1E6BB-3763-457C-9413-8815406A66E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prefab Patcher", "Prefab Patcher\Prefab Patcher.csproj", "{34198F5D-1DA6-4998-BC3E-7A03E76C1CCF}"
 EndProject

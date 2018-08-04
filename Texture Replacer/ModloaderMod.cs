@@ -1,10 +1,10 @@
 ﻿using PCBSModloader;
 
-namespace Texture_Replacer
+namespace Texture_And_Material_Replacer
 {
     class ModloaderMod : Mod
     {
-        public override string ID { get { return "Texture Replacer"; } }
+        public override string ID { get { return "Texture And Material Replacer"; } }
 
         public override string Version { get { return "1"; } }
 
