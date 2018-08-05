@@ -12,6 +12,7 @@ namespace Inventory_Sort_Options
     {
         static void Prefix(ref List<PartInstance> ___itemsDisplayedInInventory)
         {
+            // TODO sort logic depending on SortOptions?
             ___itemsDisplayedInInventory.Reverse();
         }
     }
