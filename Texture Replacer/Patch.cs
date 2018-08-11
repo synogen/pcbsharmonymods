@@ -6,6 +6,58 @@ using System.Collections.Generic;
 
 namespace Texture_And_Material_Replacer
 {
+    abstract class ReplacementConfiguration
+    {
+        public string PartID { get; set; }
+    }
+
+    class TextureConfiguration : ReplacementConfiguration
+    {
+        public WWW TexturePath { get; set; }
+
+        public TextureConfiguration(WWW texturePath)
+        {
+            PartID = null;
+            TexturePath = texturePath;
+        }
+
+        public TextureConfiguration(string partID, WWW texturePath)
+        {
+            PartID = partID;
+            TexturePath = texturePath;
+        }
+    }
+
+    class MaterialConfiguration : ReplacementConfiguration
+    {
+        public Color32 Color { get; set; }
+        public Material Material { get; set; }
+
+        public MaterialConfiguration(Color32 color)
+        {
+            PartID = null;
+            Color = color;
+        }
+
+        public MaterialConfiguration(string partID, Color32 color)
+        {
+            PartID = partID;
+            Color = color;
+        }
+
+        public MaterialConfiguration(Material material)
+        {
+            PartID = null;
+            Material = material;
+        }
+
+        public MaterialConfiguration(string partID, Material material)
+        {
+            PartID = partID;
+            Material = material;
+        }
+    }
+
     class ConfigHolder
     {
         private static ConfigHolder configHolder;
@@ -22,13 +74,34 @@ namespace Texture_And_Material_Replacer
             }
         }
 
-        public Dictionary<string, WWW> textureReplacements = new Dictionary<string, WWW>();
+        public Dictionary<string, TextureConfiguration> textureReplacements = new Dictionary<string, TextureConfiguration>();
 
-        public Dictionary<string, WWW> imageReplacements = new Dictionary<string, WWW>();
+        public Dictionary<string, TextureConfiguration> imageReplacements = new Dictionary<string, TextureConfiguration>();
 
-        public Dictionary<string, Color32> materialColors = new Dictionary<string, Color32>();
+        public Dictionary<string, MaterialConfiguration> materialColors = new Dictionary<string, MaterialConfiguration>();
 
-        public Dictionary<string, Material> materialReplacements = new Dictionary<string, Material>();
+        public Dictionary<string, MaterialConfiguration> materialReplacements = new Dictionary<string, MaterialConfiguration>();
+
+        private WWW toWWW(string texturePath)
+        {
+            return new WWW(("file:///" + ModloaderMod.Instance.Modpath + "/" + texturePath).Replace(" ", "%20").Replace("\\", "/"));
+        }
+
+        private Color32 toColor(string colorText)
+        {
+            string[] colorBytes = colorText.Split(',');
+            return new Color32(
+                        byte.Parse(colorBytes[0]),
+                        byte.Parse(colorBytes[1]),
+                        byte.Parse(colorBytes[2]),
+                        byte.Parse(colorBytes[3])
+                );
+        }
+
+        private void Log(string logtext)
+        {
+            File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", logtext + "\n");
+        }
 
         private ConfigHolder()
         {
@@ -40,8 +113,17 @@ namespace Texture_And_Material_Replacer
                 string[] textureConfig = textureConfigLine.Split('|');
                 if (textureConfig.Length == 2)
                 {
-                    textureReplacements.Add(textureConfig[0], new WWW(("file:///" + ModloaderMod.Instance.Modpath + "/" + textureConfig[1]).Replace(" ", "%20").Replace("\\", "/")));
-                    File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", "Added replacement configuration for " + textureConfig[0] + " => " + textureConfig[1] + "\n");
+                    textureReplacements.Add(textureConfig[0], new TextureConfiguration(toWWW(textureConfig[1])));
+                    Log("Added replacement configuration for " + textureConfig[0] + " => " + textureConfig[1]);
+                }
+                else if (textureConfig.Length == 3)
+                {
+                    textureReplacements.Add(textureConfig[0], new TextureConfiguration(textureConfig[1], toWWW(textureConfig[2])));
+                    Log("Added replacement configuration for " + textureConfig[0] + " => " + textureConfig[1] + " => " + textureConfig[2]);
+                }
+                else
+                {
+                    Log("Invalid replacement configuration: " + textureConfigLine);
                 }
             }
 
@@ -51,8 +133,17 @@ namespace Texture_And_Material_Replacer
                 string[] imageConfig = imageConfigLine.Split('|');
                 if (imageConfig.Length == 2)
                 {
-                    imageReplacements.Add(imageConfig[0], new WWW(("file:///" + ModloaderMod.Instance.Modpath + "/" + imageConfig[1]).Replace(" ", "%20").Replace("\\", "/")));
-                    File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", "Added replacement configuration for " + imageConfig[0] + " => " + imageConfig[1] + "\n");
+                    imageReplacements.Add(imageConfig[0], new TextureConfiguration(toWWW(imageConfig[1])));
+                    Log("Added replacement configuration for " + imageConfig[0] + " => " + imageConfig[1]);
+                }
+                else if (imageConfig.Length == 3)
+                {
+                    imageReplacements.Add(imageConfig[0], new TextureConfiguration(imageConfig[1], toWWW(imageConfig[2])));
+                    Log("Added replacement configuration for " + imageConfig[0] + " => " + imageConfig[1] + " => " + imageConfig[2]);
+                }
+                else
+                {
+                    Log("Invalid replacement configuration: " + imageConfigLine);
                 }
             }
 
@@ -62,14 +153,17 @@ namespace Texture_And_Material_Replacer
                 string[] materialConfig = materialConfiguration.Split('|');
                 if (materialConfig.Length == 2)
                 {
-                    string[] colorBytes = materialConfig[1].Split(',');
-                    materialColors.Add(materialConfig[0], new Color32(
-                        byte.Parse(colorBytes[0]),
-                        byte.Parse(colorBytes[1]),
-                        byte.Parse(colorBytes[2]),
-                        byte.Parse(colorBytes[3])
-                        ));
-                    File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", "Added color configuration for " + materialConfig[0] + " => " + materialConfig[1] + "\n");
+                    materialColors.Add(materialConfig[0], new MaterialConfiguration(toColor(materialConfig[1])));
+                    Log("Added color configuration for " + materialConfig[0] + " => " + materialConfig[1]);
+                }
+                else if (materialConfig.Length == 3)
+                {
+                    materialColors.Add(materialConfig[0], new MaterialConfiguration(materialConfig[1], toColor(materialConfig[2])));
+                    Log("Added color configuration for " + materialConfig[0] + " => " + materialConfig[1] + " => " + materialConfig[2]);
+                }
+                else
+                {
+                    Log("Invalid color configuration: " + materialConfiguration);
                 }
             }
 
@@ -79,8 +173,8 @@ namespace Texture_And_Material_Replacer
 
                 foreach (Material material in materialBundle.LoadAllAssets<Material>())
                 {
-                    materialReplacements.Add(material.name, material);
-                    File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", "Added replacement configuration for " + material.name + " => " + material + "\n");
+                    materialReplacements.Add(material.name, new MaterialConfiguration(material));
+                    Log("Added replacement configuration for " + material.name + " => " + material);
                 }
             }
         }
@@ -97,9 +191,14 @@ namespace Texture_And_Material_Replacer
             {
                 if (renderer.material.mainTexture != null && typeof(Texture2D).IsInstanceOfType(renderer.material.mainTexture))
                 {
+
                     if (ConfigHolder.Instance.textureReplacements.ContainsKey(renderer.material.mainTexture.name))
                     {
-                        ConfigHolder.Instance.textureReplacements.GetValueSafe(renderer.material.mainTexture.name).LoadImageIntoTexture(renderer.material.mainTexture as Texture2D);
+                        TextureConfiguration config = ConfigHolder.Instance.textureReplacements.GetValueSafe(renderer.material.mainTexture.name);
+                        if (config.PartID == null || config.PartID.Equals(__result.name))
+                        {
+                            config.TexturePath.LoadImageIntoTexture(renderer.material.mainTexture as Texture2D);
+                        }
                     }
                 }
                 foreach (Material material in renderer.materials)
@@ -107,11 +206,15 @@ namespace Texture_And_Material_Replacer
                     string materialName = material.name.Replace("(Instance)", "").Trim();
                     if (ConfigHolder.Instance.materialColors.ContainsKey(materialName))
                     {
-                        material.color = ConfigHolder.Instance.materialColors.GetValueSafe(materialName);
+                        MaterialConfiguration config = ConfigHolder.Instance.materialColors.GetValueSafe(materialName);
+                        if (config.PartID == null || config.PartID.Equals(__result.name))
+                        {
+                            material.color = config.Color;
+                        }
                     }
                     if (ConfigHolder.Instance.materialReplacements.ContainsKey(materialName))
                     {
-                        material.CopyPropertiesFromMaterial(ConfigHolder.Instance.materialReplacements.GetValueSafe(materialName));
+                        material.CopyPropertiesFromMaterial(ConfigHolder.Instance.materialReplacements.GetValueSafe(materialName).Material);
                     }
                 }
             }
@@ -129,7 +232,7 @@ namespace Texture_And_Material_Replacer
             {
                 if (ConfigHolder.Instance.imageReplacements.ContainsKey(__result.texture.name))
                 {
-                    ConfigHolder.Instance.imageReplacements.GetValueSafe(__result.texture.name).LoadImageIntoTexture(__result.texture as Texture2D);
+                    ConfigHolder.Instance.imageReplacements.GetValueSafe(__result.texture.name).TexturePath.LoadImageIntoTexture(__result.texture as Texture2D);
                 }
             }
         }
@@ -150,18 +253,18 @@ namespace Texture_And_Material_Replacer
                     {
                         if (ConfigHolder.Instance.imageReplacements.ContainsKey(material.mainTexture.name))
                         {
-                            ConfigHolder.Instance.imageReplacements.GetValueSafe(material.mainTexture.name).LoadImageIntoTexture(material.mainTexture as Texture2D);
+                            ConfigHolder.Instance.imageReplacements.GetValueSafe(material.mainTexture.name).TexturePath.LoadImageIntoTexture(material.mainTexture as Texture2D);
                         }
 
                     }
                     string materialName = material.name.Replace("(Instance)", "").Trim();
                     if (ConfigHolder.Instance.materialColors.ContainsKey(materialName))
                     {
-                        material.color = ConfigHolder.Instance.materialColors.GetValueSafe(materialName);
+                        material.color = ConfigHolder.Instance.materialColors.GetValueSafe(materialName).Color;
                     }
                     if (ConfigHolder.Instance.materialReplacements.ContainsKey(materialName))
                     {
-                        material.CopyPropertiesFromMaterial(ConfigHolder.Instance.materialReplacements.GetValueSafe(materialName));
+                        material.CopyPropertiesFromMaterial(ConfigHolder.Instance.materialReplacements.GetValueSafe(materialName).Material);
                     }
 
                 }

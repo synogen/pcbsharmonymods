@@ -47,3 +47,15 @@ This would color the wall material red with 100% opacity.
 If you decide to try this give the material in Unity the same name as the material in PCBS that you want to overwrite. Save the asset bundle as "materials.assetbundle" in the mod folder.
 I do not know if the manifest file is required but I always copied it as well during my tests.
 I have not gotten custom shaders to work using this method and it seems rather buggy right now so you're on your own with that.
+
+## Part Specific Texture/Material Replacements
+For parts this mod now allows patching textures and materials for a specific part ID. To do that you can simply specify the part ID in the replacement config like this:
+Ryzen 7 Eight Core 1700|CPU_JOKE_1|cpu/cyrix.png
+The mod will then replace that texture only if it is being loaded for a part with that specific ID.
+Let's say you added a new CPU based on the Ryzen 7 1700 and gave it an ID CPU_AMD_351 you could just write "Ryzen 7 Eight Core 1700|CPU_AMD_351|mytexture.png" and it will
+replace the Ryzen 7 Texture ONLY for your new CPU.
+Material replacements for parts work the same way, just specify your part ID after the material name. An example would be:
+SSD_Case|SSD_TIC_1|0,0,255,255
+This will color the Shean Mega 60GB SSD blue, while leaving all other Shean SSDs unaffected.
+
+Part Specific Replacements are not supported for asset bundles right now.
