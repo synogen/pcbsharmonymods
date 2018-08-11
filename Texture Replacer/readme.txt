@@ -59,3 +59,7 @@ SSD_Case|SSD_TIC_1|0,0,255,255
 This will color the Shean Mega 60GB SSD blue, while leaving all other Shean SSDs unaffected.
 
 Part Specific Replacements are not supported for asset bundles right now.
+
+Examples for part ID specific material color replacements are included in the "Material Colors.conf".
+There are even examples for part ID specific texture replacements in the "Parts Texture Replacer.conf" but to see those you have to install the included unitypatcher
+mod that adds the two test CPUs (PartCPU.zip).
