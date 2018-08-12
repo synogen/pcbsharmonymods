@@ -53,5 +53,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SortOptions.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AssetBundles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
