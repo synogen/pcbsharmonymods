@@ -3,12 +3,61 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Inventory_Sort_Options
 {
     [HarmonyPatch(typeof(Inventory))]
+    [HarmonyPatch("ConstructInventory")]
+    class PatchInit
+    {
+        static void Prefix(Inventory __instance, PartDesc.ShopCategory ___m_currentCategory)
+        {
+            if (File.Exists(ModloaderMod.Instance.Modpath + "/ui.assetbundle"))
+            {
+                AssetBundle uiBundle = AssetBundle.LoadFromFile(ModloaderMod.Instance.Modpath + "/ui.assetbundle");
+
+                Dropdown dropdown = UnityEngine.Object.Instantiate(uiBundle.LoadAsset<Dropdown>("Dropdown"), __instance.parent, false);
+                dropdown.onValueChanged = new Dropdown.DropdownEvent();
+                dropdown.onValueChanged.AddListener(delegate(int choice)
+                    {
+                        switch (choice)
+                        {
+                            case 0:
+                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.Default);
+                                break;
+                            case 1:
+                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.NewestFirst);
+                                break;
+                            case 2:
+                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.PriceAscending);
+                                break;
+                            case 3:
+                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.PriceDescending);
+                                break;
+                            case 4:
+                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.NameAscending);
+                                break;
+                            case 5:
+                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.NameDescending);
+                                break;
+                            default:
+                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.Default);
+                                break;
+                        }
+                        __instance.UpdateInventory(___m_currentCategory);
+                    }
+                );
+            }
+        }
+    }
+
+
+    [HarmonyPatch(typeof(Inventory))]
     [HarmonyPatch("UpdateInventory")]
-    class Patch
+    class PatchUpdate
     {
         static void Prefix(PartDesc.ShopCategory category, ref List<PartInstance> ___itemsDisplayedInInventory)
         {

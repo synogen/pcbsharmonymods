@@ -29,11 +29,11 @@ namespace Inventory_Sort_Options
             }
         }
 
-        private Dictionary<PartDesc.ShopCategory, SortBy> currentSort;
+        private Dictionary<PartDesc.ShopCategory, SortBy> currentSort = new Dictionary<PartDesc.ShopCategory, SortBy>();
 
         private SortOptions()
         {
-            // TODO load dropdown from assetbundle and link value changed function
+            // TODO load sort settings from file?
         }
 
         public SortBy forCategory(PartDesc.ShopCategory category)
@@ -45,6 +45,18 @@ namespace Inventory_Sort_Options
             else
             {
                 return SortBy.Default;
+            }
+        }
+
+        public void setSortFor(PartDesc.ShopCategory category, SortBy sortBy)
+        {
+            if (!currentSort.ContainsKey(category))
+            {
+                currentSort.Add(category, sortBy);
+            }
+            else
+            {
+                currentSort[category] = sortBy;
             }
         }
     }
