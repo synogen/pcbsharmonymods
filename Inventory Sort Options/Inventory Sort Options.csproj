@@ -65,5 +65,11 @@
   <ItemGroup>
     <Folder Include="AssetBundles\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{FAD7CB19-9BFE-4AA9-A0EB-DDB9FC7E9A03}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,50 +6,74 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Utils;
 
 namespace Inventory_Sort_Options
 {
     [HarmonyPatch(typeof(Inventory))]
-    [HarmonyPatch("ConstructInventory")]
+    [HarmonyPatch("CategoryButtonClicked")]
     class PatchInit
     {
-        static void Prefix(Inventory __instance, PartDesc.ShopCategory ___m_currentCategory)
+        static GameObject dropdownPrefab;
+
+        static Dropdown sortDropdown;
+
+        static void Postfix(Inventory __instance)
         {
             if (File.Exists(ModloaderMod.Instance.Modpath + "/ui.assetbundle"))
             {
-                AssetBundle uiBundle = AssetBundle.LoadFromFile(ModloaderMod.Instance.Modpath + "/ui.assetbundle");
-
-                Dropdown dropdown = UnityEngine.Object.Instantiate(uiBundle.LoadAsset<Dropdown>("Dropdown"), __instance.parent, false);
-                dropdown.onValueChanged = new Dropdown.DropdownEvent();
-                dropdown.onValueChanged.AddListener(delegate(int choice)
+                try
+                {
+                    
+                    if (dropdownPrefab == null)
                     {
-                        switch (choice)
-                        {
-                            case 0:
-                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.Default);
-                                break;
-                            case 1:
-                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.NewestFirst);
-                                break;
-                            case 2:
-                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.PriceAscending);
-                                break;
-                            case 3:
-                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.PriceDescending);
-                                break;
-                            case 4:
-                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.NameAscending);
-                                break;
-                            case 5:
-                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.NameDescending);
-                                break;
-                            default:
-                                SortOptions.Instance.setSortFor(___m_currentCategory, SortBy.Default);
-                                break;
-                        }
-                        __instance.UpdateInventory(___m_currentCategory);
+                        AssetBundle uiBundle = AssetBundle.LoadFromFile(ModloaderMod.Instance.Modpath + "/ui.assetbundle");
+                        dropdownPrefab = uiBundle.LoadAsset<GameObject>("Dropdown");
+
+                        GameObject goDropdown = UnityEngine.Object.Instantiate(dropdownPrefab, __instance.parent.parent.parent, false);
+                        goDropdown.transform.localPosition = new Vector3(goDropdown.transform.localPosition.x + 175, goDropdown.transform.localPosition.y + 270);
+                        sortDropdown = goDropdown.GetComponent<Dropdown>();
+                        sortDropdown.onValueChanged = new Dropdown.DropdownEvent();
+                        sortDropdown.onValueChanged.AddListener(delegate (int choice)
+                            {
+                                PartDesc.ShopCategory currentCategory = ReflectionUtils.Get<PartDesc.ShopCategory>("m_currentCategory", __instance);
+                                switch (choice)
+                                {
+                                    case 0:
+                                        SortOptions.Instance.setSortFor(currentCategory, SortBy.Default);
+                                        break;
+                                    case 1:
+                                        SortOptions.Instance.setSortFor(currentCategory, SortBy.NewestFirst);
+                                        break;
+                                    case 2:
+                                        SortOptions.Instance.setSortFor(currentCategory, SortBy.PriceAscending);
+                                        break;
+                                    case 3:
+                                        SortOptions.Instance.setSortFor(currentCategory, SortBy.PriceDescending);
+                                        break;
+                                    case 4:
+                                        SortOptions.Instance.setSortFor(currentCategory, SortBy.NameAscending);
+                                        break;
+                                    case 5:
+                                        SortOptions.Instance.setSortFor(currentCategory, SortBy.NameDescending);
+                                        break;
+                                    default:
+                                        SortOptions.Instance.setSortFor(currentCategory, SortBy.Default);
+                                        break;
+                                }
+                                __instance.ConstructInventory();
+                            }
+                        );
                     }
-                );
+                    PartDesc.ShopCategory category = ReflectionUtils.Get<PartDesc.ShopCategory>("m_currentCategory", __instance);
+                    sortDropdown.value = (int)SortOptions.Instance.forCategory(category);
+                }
+                catch (Exception e)
+                {
+                    PCBSModloader.ModLogs.Log(e.Message);
+                    throw;
+                }
+                
             }
         }
     }
@@ -59,9 +83,9 @@ namespace Inventory_Sort_Options
     [HarmonyPatch("UpdateInventory")]
     class PatchUpdate
     {
-        static void Prefix(PartDesc.ShopCategory category, ref List<PartInstance> ___itemsDisplayedInInventory)
+        static void Prefix(PartDesc.ShopCategory type, ref List<PartInstance> ___itemsDisplayedInInventory)
         {
-            SortBy sort = SortOptions.Instance.forCategory(category);
+            SortBy sort = SortOptions.Instance.forCategory(type);
 
             switch (sort)
             {
