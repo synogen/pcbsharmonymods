@@ -34,8 +34,9 @@
     <Reference Include="0Harmony">
       <HintPath>D:\Games\PC Building Simulator 0.8.6.0\PCBS_Data\Managed\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>D:\Games\PC Building Simulator 0.8.6.0\PCBS_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Games\PC.Building.Simulator.v0.8.8.0\PCBS_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="PCBSModloader">
       <HintPath>D:\Games\PC Building Simulator 0.8.6.0\PCBS_Data\Managed\PCBSModloader.dll</HintPath>
@@ -66,13 +67,13 @@
     <Folder Include="AssetBundles\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Utils\Utils.csproj">
-      <Project>{FAD7CB19-9BFE-4AA9-A0EB-DDB9FC7E9A03}</Project>
-      <Name>Utils</Name>
-    </ProjectReference>
+    <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="readme.txt" />
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{fad7cb19-9bfe-4aa9-a0eb-ddb9fc7e9a03}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

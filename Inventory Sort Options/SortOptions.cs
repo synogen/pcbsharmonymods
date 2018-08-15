@@ -1,8 +1,6 @@
 ﻿using Harmony;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Utils;
 
 namespace Inventory_Sort_Options
 {
@@ -17,7 +15,8 @@ namespace Inventory_Sort_Options
     }
 
     class SortOptions
-    {
+    {   
+
         private static SortOptions singletonInstance;
 
         public static SortOptions Instance
@@ -29,11 +28,15 @@ namespace Inventory_Sort_Options
             }
         }
 
-        private Dictionary<PartDesc.ShopCategory, SortBy> currentSort = new Dictionary<PartDesc.ShopCategory, SortBy>();
+        private Dictionary<PartDesc.ShopCategory, SortBy> currentSort;
 
         private SortOptions()
         {
-            // TODO load sort settings from file?
+            currentSort = ConfigUtil.LoadContentFromJson<Dictionary<PartDesc.ShopCategory, SortBy>>(ModloaderMod.Instance.Modpath + "/sortOptions.json");
+            if (currentSort == null)
+            {
+                currentSort = new Dictionary<PartDesc.ShopCategory, SortBy>();
+            }
         }
 
         public SortBy forCategory(PartDesc.ShopCategory category)
@@ -58,6 +61,7 @@ namespace Inventory_Sort_Options
             {
                 currentSort[category] = sortBy;
             }
+            ConfigUtil.SaveContentToJson(currentSort, ModloaderMod.Instance.Modpath + "/sortOptions.json");
         }
     }
 }
