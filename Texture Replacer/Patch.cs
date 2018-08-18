@@ -84,7 +84,7 @@ namespace Texture_And_Material_Replacer
 
         private WWW toWWW(string texturePath)
         {
-            return new WWW(("file:///" + ModloaderMod.Instance.Modpath + "/" + texturePath).Replace(" ", "%20").Replace("\\", "/"));
+            return new WWW(("file:///" + texturePath).Replace(" ", "%20").Replace("\\", "/"));
         }
 
         private Color32 toColor(string colorText)
@@ -112,73 +112,91 @@ namespace Texture_And_Material_Replacer
             dictionary.GetValueSafe(key).Add(config);
         }
 
-        private ConfigHolder()
+        private void LoadTextureConfigurationsFromPack(string packPath)
         {
-            File.Delete(ModloaderMod.Instance.Modpath + "/replacer.log");
-
-            string[] textureConfigurations = File.ReadAllLines(ModloaderMod.Instance.Modpath + "/Parts Texture Replacer.conf");
-            foreach (string textureConfigLine in textureConfigurations)
+            if (File.Exists(packPath + "/Parts Texture Replacer.conf"))
             {
-                string[] textureConfig = textureConfigLine.Split('|');
-                if (textureConfig.Length == 2)
+                string[] textureConfigurations = File.ReadAllLines(packPath + "/Parts Texture Replacer.conf");
+                foreach (string textureConfigLine in textureConfigurations)
                 {
-                    createOrAdd<TextureConfiguration>(ref textureReplacements, textureConfig[0], new TextureConfiguration(toWWW(textureConfig[1])));
-                    Log("Added replacement configuration for " + textureConfig[0] + " => " + textureConfig[1]);
+                    string[] textureConfig = textureConfigLine.Split('|');
+                    if (textureConfig.Length == 2)
+                    {
+                        createOrAdd<TextureConfiguration>(ref textureReplacements, textureConfig[0], new TextureConfiguration(toWWW(packPath + "/" + textureConfig[1])));
+                        Log("Added replacement configuration for " + textureConfig[0] + " => " + packPath + "/" + textureConfig[1]);
+                    }
+                    else if (textureConfig.Length == 3)
+                    {
+                        createOrAdd<TextureConfiguration>(ref textureReplacements, textureConfig[0], new TextureConfiguration(textureConfig[1], toWWW(packPath + "/" + textureConfig[2])));
+                        Log("Added replacement configuration for " + textureConfig[0] + " => " + textureConfig[1] + " => " + packPath + "/" + textureConfig[2]);
+                    }
+                    else
+                    {
+                        Log("Invalid replacement configuration: " + textureConfigLine);
+                    }
                 }
-                else if (textureConfig.Length == 3)
+            }
+        }
+
+        private void LoadImageConfigurationsFromPack(string packPath)
+        {
+            if (File.Exists(packPath + "/Image Replacer.conf"))
+            {
+                string[] imageConfigurations = File.ReadAllLines(packPath + "/Image Replacer.conf");
+                foreach (string imageConfigLine in imageConfigurations)
                 {
-                    createOrAdd<TextureConfiguration>(ref textureReplacements, textureConfig[0], new TextureConfiguration(textureConfig[1], toWWW(textureConfig[2])));
-                    Log("Added replacement configuration for " + textureConfig[0] + " => " + textureConfig[1] + " => " + textureConfig[2]);
+                    string[] imageConfig = imageConfigLine.Split('|');
+                    if (imageConfig.Length == 2)
+                    {
+                        imageReplacements.Add(imageConfig[0], new TextureConfiguration(toWWW(packPath + "/" + imageConfig[1])));
+                        Log("Added replacement configuration for " + imageConfig[0] + " => " + packPath + "/" + imageConfig[1]);
+                    }
+                    else if (imageConfig.Length == 3)
+                    {
+                        imageReplacements.Add(imageConfig[0], new TextureConfiguration(imageConfig[1], toWWW(packPath + "/" + imageConfig[2])));
+                        Log("Added replacement configuration for " + imageConfig[0] + " => " + imageConfig[1] + " => " + packPath + "/" + imageConfig[2]);
+                    }
+                    else
+                    {
+                        Log("Invalid replacement configuration: " + imageConfigLine);
+                    }
                 }
-                else
+            }
+            
+        }
+
+        private void LoadMaterialConfigurationsFromPack(string packPath)
+        {
+            if (File.Exists(packPath + "/Material Colors.conf"))
+            {
+                string[] materialConfigurations = File.ReadAllLines(packPath + "/Material Colors.conf");
+                foreach (string materialConfiguration in materialConfigurations)
                 {
-                    Log("Invalid replacement configuration: " + textureConfigLine);
+                    string[] materialConfig = materialConfiguration.Split('|');
+                    if (materialConfig.Length == 2)
+                    {
+                        createOrAdd<MaterialConfiguration>(ref materialColors, materialConfig[0], new MaterialConfiguration(toColor(materialConfig[1])));
+                        Log("Added color configuration for " + materialConfig[0] + " => " + materialConfig[1]);
+                    }
+                    else if (materialConfig.Length == 3)
+                    {
+                        createOrAdd<MaterialConfiguration>(ref materialColors, materialConfig[0], new MaterialConfiguration(materialConfig[1], toColor(materialConfig[2])));
+                        Log("Added color configuration for " + materialConfig[0] + " => " + materialConfig[1] + " => " + materialConfig[2]);
+                    }
+                    else
+                    {
+                        Log("Invalid color configuration: " + materialConfiguration);
+                    }
                 }
             }
 
-            string[] imageConfigurations = File.ReadAllLines(ModloaderMod.Instance.Modpath + "/Image Replacer.conf");
-            foreach (string imageConfigLine in imageConfigurations)
-            {
-                string[] imageConfig = imageConfigLine.Split('|');
-                if (imageConfig.Length == 2)
-                {
-                    imageReplacements.Add(imageConfig[0], new TextureConfiguration(toWWW(imageConfig[1])));
-                    Log("Added replacement configuration for " + imageConfig[0] + " => " + imageConfig[1]);
-                }
-                else if (imageConfig.Length == 3)
-                {
-                    imageReplacements.Add(imageConfig[0], new TextureConfiguration(imageConfig[1], toWWW(imageConfig[2])));
-                    Log("Added replacement configuration for " + imageConfig[0] + " => " + imageConfig[1] + " => " + imageConfig[2]);
-                }
-                else
-                {
-                    Log("Invalid replacement configuration: " + imageConfigLine);
-                }
-            }
+        }
 
-            string[] materialConfigurations = File.ReadAllLines(ModloaderMod.Instance.Modpath + "/Material Colors.conf");
-            foreach (string materialConfiguration in materialConfigurations)
+        private void LoadMaterialAssetBundleFromPack(string packPath)
+        {
+            if (File.Exists(packPath + "/materials.assetbundle"))
             {
-                string[] materialConfig = materialConfiguration.Split('|');
-                if (materialConfig.Length == 2)
-                {
-                    createOrAdd<MaterialConfiguration>(ref materialColors, materialConfig[0], new MaterialConfiguration(toColor(materialConfig[1])));
-                    Log("Added color configuration for " + materialConfig[0] + " => " + materialConfig[1]);
-                }
-                else if (materialConfig.Length == 3)
-                {
-                    createOrAdd<MaterialConfiguration>(ref materialColors, materialConfig[0], new MaterialConfiguration(materialConfig[1], toColor(materialConfig[2])));
-                    Log("Added color configuration for " + materialConfig[0] + " => " + materialConfig[1] + " => " + materialConfig[2]);
-                }
-                else
-                {
-                    Log("Invalid color configuration: " + materialConfiguration);
-                }
-            }
-
-            if (File.Exists(ModloaderMod.Instance.Modpath + "/materials.assetbundle"))
-            {
-                AssetBundle materialBundle = AssetBundle.LoadFromFile(ModloaderMod.Instance.Modpath + "/materials.assetbundle");
+                AssetBundle materialBundle = AssetBundle.LoadFromFile(packPath + "/materials.assetbundle");
 
                 foreach (Material material in materialBundle.LoadAllAssets<Material>())
                 {
@@ -186,6 +204,21 @@ namespace Texture_And_Material_Replacer
                     Log("Added replacement configuration for " + material.name + " => " + material);
                 }
             }
+        }
+
+        private ConfigHolder()
+        {
+            File.Delete(ModloaderMod.Instance.Modpath + "/replacer.log");
+
+            foreach (string packPath in Directory.GetDirectories(ModloaderMod.Instance.Modpath))
+            {
+                Log("Loading pack from " + packPath);
+                LoadTextureConfigurationsFromPack(packPath);
+                LoadImageConfigurationsFromPack(packPath);
+                LoadMaterialConfigurationsFromPack(packPath);
+                LoadMaterialAssetBundleFromPack(packPath);
+            }
+            
         }
     }
 
