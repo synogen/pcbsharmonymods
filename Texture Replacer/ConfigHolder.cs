@@ -59,6 +59,17 @@ namespace Texture_And_Material_Replacer
             dictionary.GetValueSafe(key).Add(config);
         }
 
+        private void createIfSafe<T>(ref Dictionary<string, T> dictionary, string key, T config)
+        {
+            if (!dictionary.ContainsKey(key))
+            {
+                dictionary.Add(key, config);
+            } else
+            {
+                Log("Duplicate configuration for " + key + ". Multiple configurations not supported for this kind of replacement.");
+            }
+        }
+
         private void LoadTextureConfigurationsFromPack(string packPath)
         {
             if (File.Exists(packPath + "/Parts Texture Replacer.conf"))
@@ -95,12 +106,12 @@ namespace Texture_And_Material_Replacer
                     string[] imageConfig = imageConfigLine.Split('|');
                     if (imageConfig.Length == 2)
                     {
-                        imageReplacements.Add(imageConfig[0], new TextureConfiguration(toWWW(packPath + "/" + imageConfig[1])));
+                        createIfSafe(ref imageReplacements, imageConfig[0], new TextureConfiguration(toWWW(packPath + "/" + imageConfig[1])));
                         Log("Added replacement configuration for " + imageConfig[0] + " => " + packPath + "/" + imageConfig[1]);
                     }
                     else if (imageConfig.Length == 3)
                     {
-                        imageReplacements.Add(imageConfig[0], new TextureConfiguration(imageConfig[1], toWWW(packPath + "/" + imageConfig[2])));
+                        createIfSafe(ref imageReplacements, imageConfig[0], new TextureConfiguration(imageConfig[1], toWWW(packPath + "/" + imageConfig[2])));
                         Log("Added replacement configuration for " + imageConfig[0] + " => " + imageConfig[1] + " => " + packPath + "/" + imageConfig[2]);
                     }
                     else
@@ -147,7 +158,7 @@ namespace Texture_And_Material_Replacer
 
                 foreach (Material material in materialBundle.LoadAllAssets<Material>())
                 {
-                    materialReplacements.Add(material.name, new MaterialConfiguration(material));
+                    createIfSafe(ref materialReplacements, material.name, new MaterialConfiguration(material));
                     Log("Added replacement configuration for " + material.name + " => " + material);
                 }
 
