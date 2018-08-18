@@ -47,7 +47,7 @@ namespace Texture_And_Material_Replacer
 
         private void Log(string logtext)
         {
-            File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", logtext + "\n");
+            File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", logtext + "\r\n");
         }
 
         private void createOrAdd<T>(ref Dictionary<string, List<T>> dictionary, string key, T config)
@@ -161,11 +161,12 @@ namespace Texture_And_Material_Replacer
 
             foreach (string packPath in Directory.GetDirectories(ModloaderMod.Instance.Modpath))
             {
-                Log("Loading pack from " + packPath);
+                Log("-- Loading pack from " + packPath);
                 LoadTextureConfigurationsFromPack(packPath);
                 LoadImageConfigurationsFromPack(packPath);
                 LoadMaterialConfigurationsFromPack(packPath);
                 LoadMaterialAssetBundleFromPack(packPath);
+                Log("-- Pack loaded\r\n");
             }
 
         }
