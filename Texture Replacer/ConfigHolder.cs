@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -29,9 +30,11 @@ namespace Texture_And_Material_Replacer
 
         public Dictionary<string, MaterialConfiguration> materialReplacements = new Dictionary<string, MaterialConfiguration>();
 
-        private WWW toWWW(string texturePath)
+        public Dictionary<string, SoundConfiguration> soundReplacements = new Dictionary<string, SoundConfiguration>();
+
+        private WWW toWWW(string path)
         {
-            return new WWW(("file:///" + texturePath).Replace(" ", "%20").Replace("\\", "/"));
+            return new WWW(("file:///" + path).Replace(" ", "%20").Replace("\\", "/"));
         }
 
         private Color32 toColor(string colorText)
@@ -45,7 +48,7 @@ namespace Texture_And_Material_Replacer
                 );
         }
 
-        private void Log(string logtext)
+        public void Log(string logtext)
         {
             File.AppendAllText(ModloaderMod.Instance.Modpath + "/replacer.log", logtext + "\r\n");
         }
@@ -166,20 +169,39 @@ namespace Texture_And_Material_Replacer
             }
         }
 
+        private void LoadSoundConfigurationsFromPack(string packPath)
+        {
+            if (File.Exists(packPath + "/Sound Replacer.conf"))
+            {
+                string[] soundConfigurations = File.ReadAllLines(packPath + "/Sound Replacer.conf");
+                foreach (string soundConfigLine in soundConfigurations)
+                {
+                    string[] soundConfig = soundConfigLine.Split('|');
+                    if (soundConfig.Length == 2)
+                    {
+                        WWW www = toWWW(packPath + "/" + soundConfig[1]);
+                        AudioClip clip = www.GetAudioClip(true, false);
+                        while (clip.loadState != AudioDataLoadState.Loaded && clip.loadState != AudioDataLoadState.Failed)
+                        {
+                            clip.LoadAudioData();
+                        }
+                        createIfSafe(ref soundReplacements, soundConfig[0], new SoundConfiguration(clip));
+                        Log("Added replacement configuration for " + soundConfig[0] + " => " + packPath + "/" + soundConfig[1]);
+                    }
+                    else
+                    {
+                        Log("Invalid replacement configuration: " + soundConfigLine);
+                    }
+                }
+            }
+
+        }
+
         private ConfigHolder()
         {
             File.Delete(ModloaderMod.Instance.Modpath + "/replacer.log");
 
-            foreach (string packPath in Directory.GetDirectories(ModloaderMod.Instance.Modpath))
-            {
-                Log("-- Loading pack from " + packPath);
-                LoadTextureConfigurationsFromPack(packPath);
-                LoadImageConfigurationsFromPack(packPath);
-                LoadMaterialConfigurationsFromPack(packPath);
-                LoadMaterialAssetBundleFromPack(packPath);
-                Log("-- Pack loaded\r\n");
-            }
-
+            LoadPacks();
         }
 
         public void ReloadConfigurations()
@@ -189,14 +211,22 @@ namespace Texture_And_Material_Replacer
             imageReplacements.Clear();
             materialColors.Clear();
             materialReplacements.Clear();
+            soundReplacements.Clear();
 
+            LoadPacks();
+        }
+
+        private void LoadPacks()
+        {
             foreach (string packPath in Directory.GetDirectories(ModloaderMod.Instance.Modpath))
             {
-                Log("Loading pack from " + packPath);
+                Log("-- Loading pack from " + packPath);
                 LoadTextureConfigurationsFromPack(packPath);
                 LoadImageConfigurationsFromPack(packPath);
                 LoadMaterialConfigurationsFromPack(packPath);
                 LoadMaterialAssetBundleFromPack(packPath);
+                LoadSoundConfigurationsFromPack(packPath);
+                Log("-- Pack loaded\r\n");
             }
         }
     }

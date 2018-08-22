@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Texture_And_Material_Replacer
+﻿namespace Texture_And_Material_Replacer
 {
     class State
     {

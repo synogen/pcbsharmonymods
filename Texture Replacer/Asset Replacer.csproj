@@ -7,8 +7,8 @@
     <ProjectGuid>{87E1E6BB-3763-457C-9413-8815406A66E6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Texture_And_Material_Replacer</RootNamespace>
-    <AssemblyName>Texture And Material Replacer</AssemblyName>
+    <RootNamespace>Asset_Replacer</RootNamespace>
+    <AssemblyName>Asset Replacer</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -52,8 +52,14 @@
     <Reference Include="UnityEngine">
       <HintPath>D:\Games\PC.Building.Simulator.v0.8.7.0\PCBS_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>D:\Games\PC Building Simulator 0.8.9.0\PCBS_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>D:\Games\PC.Building.Simulator.v0.8.7.0\PCBS_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>D:\Games\PC Building Simulator 0.8.9.0\PCBS_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>D:\Games\PC.Building.Simulator.v0.8.8.0\PCBS_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>

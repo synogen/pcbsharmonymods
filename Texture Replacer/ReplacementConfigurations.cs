@@ -9,18 +9,26 @@ namespace Texture_And_Material_Replacer
 
     class TextureConfiguration : ReplacementConfiguration
     {
-        public WWW TexturePath { get; set; }
+        public Texture2D Texture { get; set; }
+
+        public WWW www { get; set; }
+
+        public bool replaced = false;
 
         public TextureConfiguration(WWW texturePath)
         {
             PartID = null;
-            TexturePath = texturePath;
+            www = texturePath;
+            Texture = new Texture2D(texturePath.texture.width, texturePath.texture.height);
+            texturePath.LoadImageIntoTexture(Texture);
         }
 
         public TextureConfiguration(string partID, WWW texturePath)
         {
             PartID = partID;
-            TexturePath = texturePath;
+            www = texturePath;
+            Texture = new Texture2D(texturePath.texture.width, texturePath.texture.height);
+            texturePath.LoadImageIntoTexture(Texture);
         }
     }
 
@@ -51,6 +59,16 @@ namespace Texture_And_Material_Replacer
         {
             PartID = partID;
             Material = material;
+        }
+    }
+
+    class SoundConfiguration : ReplacementConfiguration
+    {
+        public AudioClip Clip { get; set; }
+
+        public SoundConfiguration(AudioClip newClip)
+        {
+            this.Clip = newClip;
         }
     }
 

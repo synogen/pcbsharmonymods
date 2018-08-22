@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,11 +25,11 @@ namespace Texture_And_Material_Replacer
                         {
                             if (config.PartID == null && !replacedIDSpecific)
                             {
-                                config.TexturePath.LoadImageIntoTexture(renderer.material.mainTexture as Texture2D);
+                                renderer.material.mainTexture = config.Texture;
                             }
                             else if (config.PartID.Equals(__result.name))
                             {
-                                config.TexturePath.LoadImageIntoTexture(renderer.material.mainTexture as Texture2D);
+                                renderer.material.mainTexture = config.Texture;
                                 replacedIDSpecific = true;
                             }
                         }
@@ -67,13 +68,21 @@ namespace Texture_And_Material_Replacer
     [HarmonyPatch("sprite", PropertyMethod.Getter)]
     class PatchOthers
     {
-        static void Postfix(ref Sprite __result)
+        static void Postfix(Sprite __result)
         {
             if (__result != null && __result.texture != null)
             {
                 if (ConfigHolder.Instance.imageReplacements.ContainsKey(__result.texture.name))
                 {
-                    ConfigHolder.Instance.imageReplacements.GetValueSafe(__result.texture.name).TexturePath.LoadImageIntoTexture(__result.texture as Texture2D);
+                    TextureConfiguration config = ConfigHolder.Instance.imageReplacements[__result.texture.name];
+                    if (!config.replaced)
+                    {
+                        // threading in unity sucks unless .NET 4.6 experimental compatibility is used so this can't be loaded in a seperate thread right now
+                        // at least not for PCBS
+                        config.www.LoadImageIntoTexture(__result.texture);
+                        config.replaced = true;
+                    }
+                    
                 }
             }
         }
@@ -95,7 +104,7 @@ namespace Texture_And_Material_Replacer
                     {
                         if (ConfigHolder.Instance.imageReplacements.ContainsKey(material.mainTexture.name))
                         {
-                            ConfigHolder.Instance.imageReplacements.GetValueSafe(material.mainTexture.name).TexturePath.LoadImageIntoTexture(material.mainTexture as Texture2D);
+                            material.mainTexture = ConfigHolder.Instance.imageReplacements.GetValueSafe(material.mainTexture.name).Texture;
                         }
 
                     }
@@ -120,4 +129,22 @@ namespace Texture_And_Material_Replacer
             }
         }
     }
+
+    [HarmonyPatch(typeof(SoundPlayer))]
+    [HarmonyPatch("PlaySoundAtSource")]
+    [HarmonyPatch(new Type[] { typeof(AudioSource), typeof(Transform) })]
+    class PatchSounds
+    {
+        static void Prefix(ref AudioSource sound)
+        {
+            if (sound != null && sound.clip != null)
+            {
+                if (ConfigHolder.Instance.soundReplacements.ContainsKey(sound.clip.name))
+                {
+                    sound.clip = ConfigHolder.Instance.soundReplacements.GetValueSafe(sound.clip.name).Clip;
+                }
+            }
+        }
+    }
+
 }

@@ -5,7 +5,7 @@ namespace Texture_And_Material_Replacer
 {
     class ModloaderMod : Mod
     {
-        public override string ID { get { return "Texture And Material Replacer"; } }
+        public override string ID { get { return "Asset Replacer"; } }
 
         public override string Version { get { return "1"; } }
 
@@ -36,10 +36,14 @@ namespace Texture_And_Material_Replacer
             {
                 GUIStyle style = new GUIStyle();
                 style.normal.textColor = Color.cyan;
-                style.fontSize = 30;
+                style.fontSize = 20;
                 style.fontStyle = FontStyle.Bold;
                 style.alignment = TextAnchor.UpperCenter;
-                GUI.Label(new Rect(Screen.width / 2 - 100, 10f, 200f, 30f), "Replacement configurations reloaded, please reload your save game!", style);
+                GUI.Label(new Rect(Screen.width / 2 - 100, 10f, 200f, 30f), 
+                    "Replacement configurations reloaded, please reload your save game!\n" +
+                    "Live reloading does not work reliably right now, so if your changes don't\n" +
+                    "show up, please try restarting the game as well!", style);
+
             }
 
         }

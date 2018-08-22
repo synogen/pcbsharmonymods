@@ -1,17 +1,16 @@
-﻿## Texture And Material Replacer for PC Building Simulator
-This is a mod that allows you to overwrite most of the textures and some of the materials in the game with your own. Currently the textures and materials for all parts, 
-all icons/backgrounds for OmegaOS and stuff like posters and floor textures are supported.
-If you find a texture or material that can't be replaced with this feel free to let me know.
+﻿## Asset Replacer for PC Building Simulator
+This is a mod that allows you to overwrite most of textures, materials and sounds in the game with your own. The coverage isn't 100% but should work for most stuff.
+If you find a texture, material or sound that can't be replaced with this feel free to let me know.
 
-An example pack is included. It replaces a few of the desktop icons and the default background with Windows 98 versions and it changes the Ryzen 7 1700 texture 
-to a 486DX. Also the flooring is replaced with a brighter wood and the walls and ceiling have gotten a different color to show how material replacing works.
+An example pack is included. It replaces a few of the desktop icons, some sounds and the default background with Windows 98 versions and it changes the Ryzen 7 1700
+texture to a 486DX. Also the flooring is replaced with a brighter wood and the walls and ceiling have gotten a different color to show how material replacing works.
 
-If you have downloaded a replacement pack just copy the folder with the .conf files ("Image Replacer.conf", "Material Colors.conf", "Parts Texture Replacer.conf")
-into the mod folder and it should get loaded automatically when the game starts.
+If you have downloaded a seperate replacement pack just copy the folder with the .conf files ("Image Replacer.conf", "Material Colors.conf", 
+"Parts Texture Replacer.conf", "Sound Replacer.conf") into the mod folder and it should get loaded automatically when the game starts.
 If you want to disable a pack just move the pack folder to a backup folder somewhere. The mod only loads subfolders in the mod folder which contain the 
-configuration files needed for a texture/material replacer pack.
+configuration files needed for an asset replacer pack.
 
-See the Quick Start section below on how to make your own texture/material replacements with this!
+See the Quick Start section below on how to make your own texture/material/sound replacements with this!
 
 ## Requirements
 Requires FusioN.'s modloader for PCBS to be installed ( https://github.com/fusiion/PCBSModloader/releases )
@@ -27,14 +26,18 @@ Code changes in future versions of PC Building Simulator may break the mod.
 FusioN. for his PCBS modloader ( https://www.youtube.com/channel/UCb8NrhEi7gWJzVt1eVC7IRQ )
 The Harmony C# patching library ( https://github.com/pardeike/Harmony )
 
-## Quick Start Texture/Sprite/Material Patching
-Texture and Material Replacer uses three configuration files for replacing textures and materials:
+## Quick Start Texture/Material/Sound Patching
+Asset Replacer uses four configuration files for replacing textures, materials and sounds:
   Image Replacer.conf -> For most of the static images in game like posters, Omega OS icons and wallpapers and such
   Material Colors.conf -> To change the color of materials in game, for example the walls and ceiling
   Parts Texture Replacer.conf -> For replacing textures on parts that are spawned in the game like CPUs, graphics cards and such
+  Sound Replacer.conf -> For replacing sounds, OS start sound, screw sounds and such
 
 Either create a new folder in the mod directory with those three files or use/copy the included "ExamplePack" or "TemplatePack" (empty pack) folder.
-Once you have done that you can start looking for the first texture you want to replace as explained in the following:
+Once you have done that you're set to start configuring the different .conf files.
+
+## Texture Replacements
+Start looking for the first texture you want to replace as explained in the following:
 
 1. Open the PCBS_Data folder with AssetStudio ( https://github.com/Perfare/AssetStudio )
 2. Search for the Texture you want to change
@@ -69,6 +72,11 @@ in the mod folder.
 I do not know if the manifest file is required but I always copied it as well during my tests.
 I have not gotten custom shaders to work using this method and it seems rather buggy right now so you're on your own with that.
 
+## Sound Replacements
+Same as for textures. Find the sound name using Asset Studio ("Show Type" -> "Audio Clip") and configure it in the "Sound Replacer.conf" file, for instance 
+"newMail|myMailSound.wav".
+I only tested wav-files, .ogg and .mp3 might be supported but those are untested, see https://docs.unity3d.com/ScriptReference/WWW.GetAudioClip.html for details.
+
 ## Part Specific Texture/Material Replacements
 For parts this mod now allows patching textures and materials for a specific part ID. To do that you can simply specify the part ID in the replacement config like this:
 Ryzen 7 Eight Core 1700|CPU_JOKE_1|cpu/cyrix.png
@@ -81,6 +89,6 @@ This will color the Shean Mega 60GB SSD blue, while leaving all other Shean SSDs
 
 Part Specific Replacements are not supported for asset bundles right now.
 
-Examples for part ID specific material color replacements are included in the "Material Colors.conf".
-There are even examples for part ID specific texture replacements in the "Parts Texture Replacer.conf" but to see those you have to install the included unitypatcher
-mod that adds the two test CPUs (PartCPU.zip).
+Examples for part ID specific material color replacements are included in the ExamplePack's "Material Colors.conf".
+There are even examples for part ID specific texture replacements in the ExamplePack's "Parts Texture Replacer.conf" but to see those you have to install the 
+included unitypatcher mod that adds the two test CPUs (ExamplePack/PartCPU.zip).
