@@ -54,7 +54,7 @@ Start looking for the first texture you want to replace as explained in the foll
 5. Start the game and try it out!
 6. The mod creates a "replacer.log" in the mod folder where you can check if things have been loaded correctly in case there are errors or things don't get replaced
 
-If you are in-game and you changed something in the replacement configuration you can reload the replacement configurations by pressing "CTRL+ALT+R", you still have 
+If you are in-game and you changed something in the replacement configuration you can reload the replacement configurations by pressing "ALT+N", you still have 
 to reload your save game for all the changes to become visible though!
 
 ## Material Replacements

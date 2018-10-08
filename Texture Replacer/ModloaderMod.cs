@@ -23,7 +23,7 @@ namespace Asset_Replacer
 
         public override void Update()
         {
-            if (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.N))
             {
                 ConfigHolder.Instance.ReloadConfigurations();
                 State.Instance.updateMessage = true;
