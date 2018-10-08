@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Texture_And_Material_Replacer
+namespace Asset_Replacer
 {
     abstract class ReplacementConfiguration
     {

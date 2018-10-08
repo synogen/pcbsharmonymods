@@ -1,7 +1,7 @@
 ﻿using PCBSModloader;
 using UnityEngine;
 
-namespace Texture_And_Material_Replacer
+namespace Asset_Replacer
 {
     class ModloaderMod : Mod
     {
@@ -23,7 +23,7 @@ namespace Texture_And_Material_Replacer
 
         public override void Update()
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.R))
             {
                 ConfigHolder.Instance.ReloadConfigurations();
                 State.Instance.updateMessage = true;
@@ -43,7 +43,6 @@ namespace Texture_And_Material_Replacer
                     "Replacement configurations reloaded, please reload your save game!\n" +
                     "Live reloading does not work reliably right now, so if your changes don't\n" +
                     "show up, please try restarting the game as well!", style);
-
             }
 
         }

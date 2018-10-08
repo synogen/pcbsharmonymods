@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Texture_And_Material_Replacer
+namespace Asset_Replacer
 {
 
     [HarmonyPatch(typeof(PartsDatabase))]

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Texture_And_Material_Replacer
+namespace Asset_Replacer
 {
     class ConfigHolder
     {
@@ -229,5 +229,6 @@ namespace Texture_And_Material_Replacer
                 Log("-- Pack loaded\r\n");
             }
         }
+
     }
 }

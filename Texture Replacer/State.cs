@@ -1,4 +1,4 @@
-﻿namespace Texture_And_Material_Replacer
+﻿namespace Asset_Replacer
 {
     class State
     {
