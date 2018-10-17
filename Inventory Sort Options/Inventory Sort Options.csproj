@@ -36,7 +36,7 @@
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Games\PC.Building.Simulator.v0.8.8.0\PCBS_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>D:\Games\PC Building Simulator 0.9.0.0\PCBS_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="PCBSModloader">
       <HintPath>D:\Games\PC Building Simulator 0.8.6.0\PCBS_Data\Managed\PCBSModloader.dll</HintPath>
@@ -44,8 +44,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>D:\Games\PC.Building.Simulator.v0.8.8.0\PCBS_Data\Managed\UnityEngine.dll</HintPath>

@@ -11,14 +11,14 @@ using Utils;
 namespace Inventory_Sort_Options
 {
     [HarmonyPatch(typeof(Inventory))]
-    [HarmonyPatch("CategoryButtonClicked")]
+    [HarmonyPatch("ConstructInventory")]
     class PatchInit
     {
         static GameObject dropdownPrefab;
 
         static Dropdown sortDropdown;
 
-        static void Postfix(Inventory __instance)
+        static void Prefix(Inventory __instance)
         {
             if (File.Exists(ModloaderMod.Instance.Modpath + "/ui.assetbundle"))
             {
@@ -31,7 +31,7 @@ namespace Inventory_Sort_Options
                         dropdownPrefab = uiBundle.LoadAsset<GameObject>("Dropdown");
 
                         GameObject goDropdown = UnityEngine.Object.Instantiate(dropdownPrefab, __instance.parent.parent.parent, false);
-                        goDropdown.transform.localPosition = new Vector3(goDropdown.transform.localPosition.x + 175, goDropdown.transform.localPosition.y + 270);
+                        goDropdown.transform.localPosition = new Vector3(goDropdown.transform.localPosition.x + 175, goDropdown.transform.localPosition.y + 280);
                         sortDropdown = goDropdown.GetComponent<Dropdown>();
                         sortDropdown.onValueChanged = new Dropdown.DropdownEvent();
                         sortDropdown.onValueChanged.AddListener(delegate (int choice)
