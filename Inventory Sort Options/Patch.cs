@@ -30,8 +30,8 @@ namespace Inventory_Sort_Options
                         AssetBundle uiBundle = AssetBundle.LoadFromFile(ModloaderMod.Instance.Modpath + "/ui.assetbundle");
                         dropdownPrefab = uiBundle.LoadAsset<GameObject>("Dropdown");
 
-                        GameObject goDropdown = UnityEngine.Object.Instantiate(dropdownPrefab, __instance.parent.parent.parent, false);
-                        goDropdown.transform.localPosition = new Vector3(goDropdown.transform.localPosition.x + 175, goDropdown.transform.localPosition.y + 280);
+                        GameObject goDropdown = UnityEngine.Object.Instantiate(dropdownPrefab, __instance.transform, false);
+                        goDropdown.transform.localPosition = new Vector3(goDropdown.transform.localPosition.x + 290, goDropdown.transform.localPosition.y + 210);
                         sortDropdown = goDropdown.GetComponent<Dropdown>();
                         sortDropdown.onValueChanged = new Dropdown.DropdownEvent();
                         sortDropdown.onValueChanged.AddListener(delegate (int choice)
@@ -83,7 +83,7 @@ namespace Inventory_Sort_Options
     [HarmonyPatch("UpdateInventory")]
     class PatchUpdate
     {
-        static void Prefix(PartDesc.ShopCategory type, ref List<PartInstance> ___itemsDisplayedInInventory)
+        static void Prefix(PartDesc.ShopCategory type, ref List<PartInstance> ___currentItems)
         {
             SortBy sort = SortOptions.Instance.forCategory(type);
 
@@ -93,10 +93,10 @@ namespace Inventory_Sort_Options
                     // keep order as it is
                     break;
                 case SortBy.NewestFirst:
-                    ___itemsDisplayedInInventory.Reverse();
+                    ___currentItems.Reverse();
                     break;
                 case SortBy.PriceAscending:
-                    ___itemsDisplayedInInventory.Sort(
+                    ___currentItems.Sort(
                         delegate (PartInstance a, PartInstance b)
                         {
                             return a.GetPart().m_price < b.GetPart().m_price ? -1 : a.GetPart().m_price > b.GetPart().m_price ? 1 : 0;
@@ -104,7 +104,7 @@ namespace Inventory_Sort_Options
                     );
                     break;
                 case SortBy.PriceDescending:
-                    ___itemsDisplayedInInventory.Sort(
+                    ___currentItems.Sort(
                         delegate (PartInstance a, PartInstance b)
                         {
                             return a.GetPart().m_price < b.GetPart().m_price ? 1 : a.GetPart().m_price > b.GetPart().m_price ? -1 : 0;
@@ -112,7 +112,7 @@ namespace Inventory_Sort_Options
                     );
                     break;
                 case SortBy.NameAscending:
-                    ___itemsDisplayedInInventory.Sort(
+                    ___currentItems.Sort(
                         delegate (PartInstance a, PartInstance b)
                         {
                             return a.GetPart().m_uiShopName.CompareTo(b.GetPart().m_uiShopName);
@@ -120,7 +120,7 @@ namespace Inventory_Sort_Options
                     );
                     break;
                 case SortBy.NameDescending:
-                    ___itemsDisplayedInInventory.Sort(
+                    ___currentItems.Sort(
                         delegate (PartInstance a, PartInstance b)
                         {
                             return a.GetPart().m_uiShopName.CompareTo(b.GetPart().m_uiShopName) * -1;
