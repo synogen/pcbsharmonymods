@@ -47,7 +47,7 @@ namespace Order_Templates
         private List<Component> getRows()
         {
             Type shop = typeof(Shop);
-            FieldInfo field = shop.GetField("m_rows", BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo field = shop.GetField("m_checkoutRows", BindingFlags.NonPublic | BindingFlags.Instance);
             return (List<Component>)field.GetValue(instance.GetComponentInParent<Shop>());
         }
 

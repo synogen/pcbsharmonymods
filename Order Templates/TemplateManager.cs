@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using Utils;
 
 namespace Order_Templates
 {
@@ -11,8 +12,11 @@ namespace Order_Templates
 
         private TemplateManager()
         {
-            this.templates = new Dictionary<string, List<string>>();
-            this.LoadContentFromFile();
+            templates = ConfigUtil.LoadContentFromFile<Dictionary<string, List<string>>>(ModloaderMod.Instance.Modpath + "/shoppingTemplates.bin");
+            if (templates == null)
+            {
+                this.templates = new Dictionary<string, List<string>>();
+            }
         }
 
         private static TemplateManager singletonInstance;
@@ -38,14 +42,14 @@ namespace Order_Templates
                 partIds.Add(shopEntry.m_part.m_id);
             }
             this.templates.Add(name, partIds);
-            this.SaveContentToFile();
+            ConfigUtil.SaveContentToFile(templates, ModloaderMod.Instance.Modpath + "/shoppingTemplates.bin");
         }
 
 
         public void RemoveTemplate(string name)
         {
             this.templates.Remove(name);
-            this.SaveContentToFile();
+            ConfigUtil.SaveContentToFile(templates, ModloaderMod.Instance.Modpath + "/shoppingTemplates.bin");
         }
 
 
@@ -60,27 +64,6 @@ namespace Order_Templates
         public Dictionary<string, List<string>> GetAllTemplates()
         {
             return this.templates;
-        }
-
-
-        private void SaveContentToFile()
-        {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(ModloaderMod.Instance.Modpath + "/shoppingTemplates.bin", FileMode.Create, FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, this.templates);
-            stream.Close();
-        }
-
-
-        private void LoadContentFromFile()
-        {
-            if (File.Exists(ModloaderMod.Instance.Modpath + "/shoppingTemplates.bin"))
-            {
-                IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(ModloaderMod.Instance.Modpath + "/shoppingTemplates.bin", FileMode.OpenOrCreate, FileAccess.Read, FileShare.None);
-                this.templates = (Dictionary<string, List<string>>)formatter.Deserialize(stream);
-                stream.Close();
-            }
         }
 
         private Dictionary<string, List<string>> templates;
