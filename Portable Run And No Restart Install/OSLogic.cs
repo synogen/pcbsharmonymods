@@ -62,7 +62,7 @@ namespace Portable_Run_And_No_Restart_Install
         }
 
 
-        internal void UpdatePrograms()
+        internal void UpdatePrograms() // TODO check how OS/Desktop does this in PCBS and adapt accordingly or call directly if at all possible
         {
             foreach (ProgramIcon programIcon in os.transform.GetComponentsInChildren<ProgramIcon>())
             {
@@ -77,21 +77,22 @@ namespace Portable_Run_And_No_Restart_Install
             programIcons.Clear();
             float num = 100f;
             Rect rect = (os.transform as RectTransform).rect;
-            float num2 = rect.height - os.m_iconSpacing;
+            var spacing = 100f;
+            float num2 = rect.height - spacing;
             foreach (OSProgramDesc program in PartsDatabase.GetAllPrograms())
             {
                 if (Array.Find<string>(programsInstalled, (string p) => p == program.m_id) != null)
                 {
                     ProgramIcon programIcon2 = UnityEngine.Object.Instantiate<ProgramIcon>(os.m_programIconPrefab);
-                    programIcon2.Init(program, null);
+                    programIcon2.Init(program, false, null);
                     programIcon2.transform.SetParent(os.transform, false);
                     programIcon2.transform.localPosition = new Vector3(num, num2);
                     programIcons.Add(programIcon2);
-                    num2 -= os.m_iconSpacing;
-                    if (num2 - os.m_iconSpacing < 0f)
+                    num2 -= spacing;
+                    if (num2 - spacing < 0f)
                     {
-                        num += os.m_iconSpacing;
-                        num2 = rect.height - os.m_iconSpacing;
+                        num += spacing;
+                        num2 = rect.height - spacing;
                     }
                 }
             }

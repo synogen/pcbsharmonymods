@@ -42,13 +42,13 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>D:\Games\PC Building Simulator 0.8.6.0\PCBS_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>D:\Games\PC Building Simulator\PCBS_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>D:\Games\PC Building Simulator 0.8.6.0\PCBS_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>D:\Games\PC Building Simulator\PCBS_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:\Games\PC Building Simulator 0.8.6.0\PCBS_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>D:\Games\PC Building Simulator\PCBS_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

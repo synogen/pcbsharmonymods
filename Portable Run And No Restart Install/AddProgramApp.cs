@@ -84,7 +84,7 @@ namespace Portable_Run_And_No_Restart_Install
             return false;
         }
 
-        static IEnumerator Postfix(IEnumerator __result, AddProgramApp __instance, OSProgramDesc desc, bool ___m_dayEnded, OS ___m_os)
+        static IEnumerator Postfix(IEnumerator __result, AddProgramApp __instance, OSProgramDesc desc, bool ___m_dayEnded)
         {
             ___m_dayEnded = false;
             ReflectionUtils.Run("ShowProgressDialog", __instance, new object[] { ScriptLocalization.AddPrograms.INSTALLING, desc });
@@ -96,9 +96,10 @@ namespace Portable_Run_And_No_Restart_Install
             {
                 desc.m_id
             }.ToArray();
+            var os = __instance.GetComponentInParent<OS>();
             __instance.m_installPopup.SetActive(false);
-            OSLogic.InstanceFor(___m_os).AddProgram(desc.m_id);
-            OSLogic.InstanceFor(___m_os).UpdatePrograms();
+            OSLogic.InstanceFor(os).AddProgram(desc.m_id);
+            OSLogic.InstanceFor(os).UpdatePrograms();
             ReflectionUtils.Run("UpdateProgramList", __instance);
 
             yield break;
@@ -114,7 +115,7 @@ namespace Portable_Run_And_No_Restart_Install
             return false;
         }
 
-        static IEnumerator Postfix(IEnumerator __result, AddProgramApp __instance, OSProgramDesc desc, bool ___m_dayEnded, OS ___m_os)
+        static IEnumerator Postfix(IEnumerator __result, AddProgramApp __instance, OSProgramDesc desc, bool ___m_dayEnded)
         {
             ___m_dayEnded = false;
             ReflectionUtils.Run("ShowProgressDialog", __instance, new object[] { ScriptLocalization.AddPrograms.REMOVING, desc });
@@ -126,8 +127,9 @@ namespace Portable_Run_And_No_Restart_Install
             list.Remove(desc.m_id);
             software.m_programs = list.ToArray();
             __instance.m_installPopup.SetActive(false);
-            OSLogic.InstanceFor(___m_os).RemoveProgram(desc.m_id);
-            OSLogic.InstanceFor(___m_os).UpdatePrograms();
+            var os = __instance.GetComponentInParent<OS>();
+            OSLogic.InstanceFor(os).RemoveProgram(desc.m_id);
+            OSLogic.InstanceFor(os).UpdatePrograms();
             ReflectionUtils.Run("UpdateProgramList", __instance);
 
             yield break;
@@ -186,11 +188,11 @@ namespace Portable_Run_And_No_Restart_Install
 
                 foreach (OSProgramDesc prog in PartsDatabase.GetAllPrograms())
                 {
-                    if (CareerStatus.Get().IsProgramUnlocked(prog.m_id))
+                    if (CareerStatus.Get().IsProgramAvailableForInstall(prog.m_id))
                     {
-                        UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, delegate
+                        UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, false, delegate
                         {
-                            ReflectionUtils.Get<OS>("m_os", __instance).Launch(prog);
+                            __instance.GetComponentInParent<OS>().Launch(prog);
                         });
                     }
                 }
@@ -207,9 +209,9 @@ namespace Portable_Run_And_No_Restart_Install
 
                 foreach (OSProgramDesc prog in PartsDatabase.GetAllPrograms())
                 {
-                    if (!computer.m_software.m_programs.Contains(prog.m_id) && CareerStatus.Get().IsProgramUnlocked(prog.m_id))
+                    if (!computer.m_software.m_programs.Contains(prog.m_id) && CareerStatus.Get().IsProgramAvailableForInstall(prog.m_id))
                     {
-                        UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, delegate
+                        UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, false, delegate
                         {
                             __instance.StartCoroutine(ReflectionUtils.Run<IEnumerator>("Install", __instance, new object[] { prog }));
                         });
@@ -230,9 +232,8 @@ namespace Portable_Run_And_No_Restart_Install
                 {
                     if (prog.m_canBeUninstalled && computer.m_software.m_programs.Contains(prog.m_id))
                     {
-                        UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, delegate
+                        UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, false, delegate
                         {
-                            
                             __instance.StartCoroutine(ReflectionUtils.Run<IEnumerator>("Uninstall", __instance, new object[] { prog }));
                         });
                         uninstallablePrograms = true;
