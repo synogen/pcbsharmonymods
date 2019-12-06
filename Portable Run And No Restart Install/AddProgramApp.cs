@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using PRANRIUtils.Utils;
+using System;
 
 namespace Portable_Run_And_No_Restart_Install
 {
@@ -46,7 +47,7 @@ namespace Portable_Run_And_No_Restart_Install
         }
 
         private void ChangeUI()
-        {   
+        {
             RectTransform rt = addProgramApp.m_addButton.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(rt.sizeDelta.x - 78f, rt.sizeDelta.y);
             RectTransform rt2 = addProgramApp.m_removeButton.GetComponent<RectTransform>();
@@ -55,7 +56,7 @@ namespace Portable_Run_And_No_Restart_Install
             addProgramApp.m_addButton.GetComponentInChildren<Text>().text = "Add";
             addProgramApp.m_removeButton.transform.localPosition = new Vector3(addProgramApp.m_removeButton.transform.localPosition.x + 78f, addProgramApp.m_removeButton.transform.localPosition.y, addProgramApp.m_removeButton.transform.localPosition.z);
             addProgramApp.m_removeButton.GetComponentInChildren<Text>().text = "Remove";
-            portableButton = UIUtil.CreateTemplateButton(addProgramApp.m_addButton, "Portable", 0f, 0f, -(addProgramApp.m_addButton.GetComponent<RectTransform>().rect.width + 10f), 0f);
+            portableButton = UIUtil.CreateTemplateButton(addProgramApp.m_addButton, "Portable", 0f, 0f, -(addProgramApp.m_removeButton.GetComponent<RectTransform>().rect.width + 10f), 0f);
             portableButton.onClick.AddListener(new UnityAction(SetPortableMode));
             SetPortableMode();
         }

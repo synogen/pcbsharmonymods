@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Show Inventory Stock In Shop", "Show Inventory Stock In Shop\Show Inventory Stock In Shop.csproj", "{03CB2381-2033-438A-B4CD-88F57FDCFDBC}"
 EndProject
@@ -30,6 +30,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMod", "TestMod\TestMod.csproj", "{9DD7546D-F7A3-4388-AADF-D51BB468A920}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restore Ram Compatibility", "Restore Ram Compatibility\Restore Ram Compatibility.csproj", "{D6902FFA-3F24-4C72-8393-F85D2276F8FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faster 3D Mark", "Faster 3D Mark\Faster 3D Mark.csproj", "{3069EF35-7CE1-49C3-9882-32D0C4A0AE79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{D6902FFA-3F24-4C72-8393-F85D2276F8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6902FFA-3F24-4C72-8393-F85D2276F8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6902FFA-3F24-4C72-8393-F85D2276F8FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3069EF35-7CE1-49C3-9882-32D0C4A0AE79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3069EF35-7CE1-49C3-9882-32D0C4A0AE79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3069EF35-7CE1-49C3-9882-32D0C4A0AE79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3069EF35-7CE1-49C3-9882-32D0C4A0AE79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
