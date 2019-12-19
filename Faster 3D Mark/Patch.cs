@@ -3,8 +3,8 @@ using System.IO;
 
 namespace Faster_3D_Mark
 {
-    [HarmonyPatch(typeof(ThreedMarkApp))]
-    [HarmonyPatch("DoBenchmarking")]
+    [HarmonyPatch(typeof(SaveLoadSystem))]
+    [HarmonyPatch("LoadGame")]
     class Patch
     {
         static bool Prefix()
@@ -19,6 +19,7 @@ namespace Faster_3D_Mark
                 }
             }
             ProgramConstants.s_max3DMarkTestDuration = seconds / 3;
+            PCBSModloader.ModLogs.Log("Changed ProgramConstants.s_max3DMarkTestDuration to " + ProgramConstants.s_max3DMarkTestDuration);
             return true;
         }
     }
