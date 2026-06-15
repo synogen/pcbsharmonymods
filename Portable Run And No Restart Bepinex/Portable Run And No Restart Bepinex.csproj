@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
-    <AssemblyName>Portable_Run_And_No_Restart_Bepinex</AssemblyName>
-    <Product>Portable Run And No Restart Install Bepinex</Product>
+    <AssemblyName>Portable_Run_And_No_Restart</AssemblyName>
+    <Product>Portable Run And No Restart Install</Product>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
@@ -12,8 +12,8 @@
       https://nuget.bepinex.dev/v3/index.json;
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
-    <RootNamespace>Portable_Run_And_No_Restart_Bepinex</RootNamespace>
-  </PropertyGroup>
+    <RootNamespace>Portable_Run_And_No_Restart</RootNamespace>
+    </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />

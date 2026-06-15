@@ -5,7 +5,7 @@ using System.Reflection;
 using System;
 using System.Linq;
 
-namespace Portable_Run_And_No_Restart_Bepinex;
+namespace Portable_Run_And_No_Restart;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 public class Plugin : BaseUnityPlugin
@@ -19,7 +19,7 @@ public class Plugin : BaseUnityPlugin
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
 
         Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_NAME);
-        PatchAllInNamespace(harmony, "Portable_Run_And_No_Restart_Bepinex");
+        PatchAllInNamespace(harmony, "Portable_Run_And_No_Restart");
     }
 
     private void PatchAllInNamespace(Harmony harmony, string targetNamespace)

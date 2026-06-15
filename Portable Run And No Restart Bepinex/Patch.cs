@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 
-namespace Portable_Run_And_No_Restart_Bepinex
+namespace Portable_Run_And_No_Restart
 {
     [HarmonyPatch(typeof(AddProgramApp))]
     [HarmonyPatch("Start")]
