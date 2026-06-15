@@ -9,7 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Utils;
 
-namespace Portable_Run_And_No_Restart_Bepinex
+namespace Portable_Run_And_No_Restart
 {
     class AddProgramAppLogic
     {
@@ -52,28 +52,50 @@ namespace Portable_Run_And_No_Restart_Bepinex
         {
             RectTransform addRT = addProgramApp.m_addButton.GetComponent<RectTransform>();
             RectTransform removeRT = addProgramApp.m_removeButton.GetComponent<RectTransform>();
-
-            float addWidth = addRT.rect.width;
-            float removeWidth = removeRT.rect.width;
+            InputField searchInput = addProgramApp.GetComponentInChildren<InputField>();
+            RectTransform searchRT = searchInput.GetComponent<RectTransform>();
             float spacing = 5f;
-            float totalWidth = addWidth + removeWidth + spacing;
-            float newWidth = (totalWidth - spacing * 2f) / 3f;
-            float delta = (addWidth - newWidth + removeWidth - newWidth) / 2f;
 
-            Vector3 addOrigPos = addRT.localPosition;
-            Vector3 removeOrigPos = removeRT.localPosition;
-
-            addRT.sizeDelta = new Vector2(addRT.sizeDelta.x - delta, addRT.sizeDelta.y);
-            addRT.localPosition = new Vector3(addOrigPos.x + delta * 2f, addOrigPos.y, addOrigPos.z);
-
-            removeRT.sizeDelta = new Vector2(removeRT.sizeDelta.x - delta, removeRT.sizeDelta.y);
-            removeRT.localPosition = new Vector3(removeOrigPos.x + delta, removeOrigPos.y, removeOrigPos.z);
+            LayoutGroup lg = addRT.parent.GetComponent<LayoutGroup>();
+            if (lg != null)
+            {
+                lg.enabled = false;
+            }
 
             addProgramApp.m_addButton.GetComponentInChildren<Text>().text = "Add";
             addProgramApp.m_removeButton.GetComponentInChildren<Text>().text = "Remove";
 
-            portableButton = UIUtil.CreateTemplateButton(addProgramApp.m_addButton, "Portable", 0f, 0f, -(newWidth + spacing), 0f);
+            RectTransform buttonsParent = addRT.parent as RectTransform;
+            float parentW = buttonsParent.rect.width;
+            Vector3[] corners = new Vector3[4];
+            searchRT.GetWorldCorners(corners);
+            float localLeft = buttonsParent.InverseTransformPoint(corners[0]).x;
+            float localRight = buttonsParent.InverseTransformPoint(corners[2]).x;
+            float leftAnchor = localLeft / parentW + 0.5f;
+            float rightAnchor = localRight / parentW + 0.5f;
+            float range = rightAnchor - leftAnchor;
+            float third = range / 3f;
+
+            Debug.Log($"[ChangeUI] leftAnchor={leftAnchor:F4} rightAnchor={rightAnchor:F4} range={range:F4} third={third:F4}");
+
+            portableButton = UIUtil.CreateTemplateButton(addProgramApp.m_addButton, "Portable", 0f, 0f, 0f, 0f);
             portableButton.onClick.AddListener(new UnityAction(SetPortableMode));
+            RectTransform portableRT = portableButton.GetComponent<RectTransform>();
+
+            portableRT.anchorMin = new Vector2(leftAnchor, portableRT.anchorMin.y);
+            portableRT.anchorMax = new Vector2(leftAnchor + third, portableRT.anchorMax.y);
+            addRT.anchorMin = new Vector2(leftAnchor + third, addRT.anchorMin.y);
+            addRT.anchorMax = new Vector2(leftAnchor + third * 2f, addRT.anchorMax.y);
+            removeRT.anchorMin = new Vector2(leftAnchor + third * 2f, removeRT.anchorMin.y);
+            removeRT.anchorMax = new Vector2(rightAnchor, removeRT.anchorMax.y);
+
+            portableRT.offsetMin = new Vector2(spacing / 2f, portableRT.offsetMin.y);
+            portableRT.offsetMax = new Vector2(-spacing / 2f, portableRT.offsetMax.y);
+            addRT.offsetMin = new Vector2(spacing / 2f, addRT.offsetMin.y);
+            addRT.offsetMax = new Vector2(-spacing / 2f, addRT.offsetMax.y);
+            removeRT.offsetMin = new Vector2(spacing / 2f, removeRT.offsetMin.y);
+            removeRT.offsetMax = new Vector2(-spacing / 2f, removeRT.offsetMax.y);
+
             SetPortableMode();
         }
 
