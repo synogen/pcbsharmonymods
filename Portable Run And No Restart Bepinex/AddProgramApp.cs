@@ -228,7 +228,7 @@ namespace Portable_Run_And_No_Restart
 
                 foreach (OSProgramDesc prog in PartsDatabase.GetAllPrograms())
                 {
-                    if (prog.m_id != "ADDPROGRAM" && CareerStatus.Get().IsProgramAvailableForInstall(prog.m_id))
+                    if (prog.m_id != "ADDPROGRAM" && CareerStatus.Get().IsProgramAvailableForInstall(prog.m_id) && ReflectionUtils.Run<bool>("Include", __instance, new object[] { prog }))
                     {
                         UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, false, delegate
                         {
@@ -246,41 +246,65 @@ namespace Portable_Run_And_No_Restart
                     return;
                 }
                 bool programsMissing = false;
+                bool anyMatch = false;
 
                 foreach (OSProgramDesc prog in PartsDatabase.GetAllPrograms())
                 {
                     if (!computer.m_software.m_programs.Contains(prog.m_id) && CareerStatus.Get().IsProgramAvailableForInstall(prog.m_id) && prog.m_canBeInstalled)
                     {
-                        UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, false, delegate
-                        {
-                            __instance.StartCoroutine(ReflectionUtils.Run<IEnumerator>("Install", __instance, new object[] { prog }));
-                        });
                         programsMissing = true;
+                        if (ReflectionUtils.Run<bool>("Include", __instance, new object[] { prog }))
+                        {
+                            UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, false, delegate
+                            {
+                                __instance.StartCoroutine(ReflectionUtils.Run<IEnumerator>("Install", __instance, new object[] { prog }));
+                            });
+                            anyMatch = true;
+                        }
                     }
                 }
                 
-                if (!programsMissing)
+                if (!anyMatch)
                 {
-                    ReflectionUtils.Run("SetMessage", __instance, new object[] { ScriptLocalization.AddPrograms.ALL_INSTALLED });
+                    if (programsMissing)
+                    {
+                        ReflectionUtils.Run("SetMessage", __instance, new object[] { ScriptLocalization.AddPrograms.NO_MATCHING });
+                    }
+                    else
+                    {
+                        ReflectionUtils.Run("SetMessage", __instance, new object[] { ScriptLocalization.AddPrograms.ALL_INSTALLED });
+                    }
                 }
             }
             else if (AddProgramAppLogic.InstanceFor(__instance).addMode == 3)
             {
                 bool uninstallablePrograms = false;
+                bool anyMatch = false;
                 foreach (OSProgramDesc prog in PartsDatabase.GetAllPrograms())
                 {
                     if (prog.m_canBeUninstalled && computer.m_software.m_programs.Contains(prog.m_id))
                     {
-                        UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, false, delegate
-                        {
-                            __instance.StartCoroutine(ReflectionUtils.Run<IEnumerator>("Uninstall", __instance, new object[] { prog }));
-                        });
                         uninstallablePrograms = true;
+                        if (ReflectionUtils.Run<bool>("Include", __instance, new object[] { prog }))
+                        {
+                            UnityEngine.Object.Instantiate<ProgramIcon>(__instance.programIconPrefab, __instance.m_programList.content).Init(prog, false, delegate
+                            {
+                                __instance.StartCoroutine(ReflectionUtils.Run<IEnumerator>("Uninstall", __instance, new object[] { prog }));
+                            });
+                            anyMatch = true;
+                        }
                     }
                 } 
-                if (!uninstallablePrograms)
+                if (!anyMatch)
                 {
-                    ReflectionUtils.Run("SetMessage", __instance, new object[] { ScriptLocalization.AddPrograms.NONE_INSTALLED });
+                    if (uninstallablePrograms)
+                    {
+                        ReflectionUtils.Run("SetMessage", __instance, new object[] { ScriptLocalization.AddPrograms.NO_MATCHING });
+                    }
+                    else
+                    {
+                        ReflectionUtils.Run("SetMessage", __instance, new object[] { ScriptLocalization.AddPrograms.NONE_INSTALLED });
+                    }
                 }
             }
         }
