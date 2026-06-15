@@ -19,6 +19,16 @@ namespace Portable_Run_And_No_Restart_Bepinex
         }
     }
 
+    [HarmonyPatch(typeof(AddProgramApp))]
+    [HarmonyPatch("OnDestroy")]
+    class AddProgramAppOnDestroyPatch
+    {
+        static void Postfix(AddProgramApp __instance)
+        {
+            AddProgramAppLogic.Cleanup(__instance);
+        }
+    }
+
     [HarmonyPatch(typeof(OS))]
     [HarmonyPatch("Awake")]
     class OSAwakePatch
@@ -26,6 +36,16 @@ namespace Portable_Run_And_No_Restart_Bepinex
         static void Postfix(OS __instance)
         {
             OSLogic.InstanceFor(__instance).Init();
+        }
+    }
+
+    [HarmonyPatch(typeof(OS))]
+    [HarmonyPatch("OnDestroy")]
+    class OSOnDestroyPatch
+    {
+        static void Postfix(OS __instance)
+        {
+            OSLogic.Cleanup(__instance);
         }
     }
 }

@@ -25,14 +25,18 @@ namespace Portable_Run_And_No_Restart_Bepinex
         public static AddProgramAppLogic InstanceFor(AddProgramApp addProgramApp)
         {
             AddProgramAppLogic instance = null;
-            if (!addProgramAppLogicInstances.ContainsKey(addProgramApp))
+            if (addProgramAppLogicInstances.TryGetValue(addProgramApp, out instance))
             {
-                instance = new AddProgramAppLogic(addProgramApp);
-                addProgramAppLogicInstances.Add(addProgramApp, instance);
                 return instance;
             }
-            addProgramAppLogicInstances.TryGetValue(addProgramApp, out instance);
+            instance = new AddProgramAppLogic(addProgramApp);
+            addProgramAppLogicInstances.Add(addProgramApp, instance);
             return instance;
+        }
+
+        public static void Cleanup(AddProgramApp addProgramApp)
+        {
+            addProgramAppLogicInstances.Remove(addProgramApp);
         }
 
         private AddProgramAppLogic(AddProgramApp addProgramApp) {

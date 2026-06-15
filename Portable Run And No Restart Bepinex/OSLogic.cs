@@ -14,14 +14,18 @@ namespace Portable_Run_And_No_Restart_Bepinex
         public static OSLogic InstanceFor(OS os)
         {
             OSLogic instance = null;
-            if (!OSLogicInstances.ContainsKey(os))
+            if (OSLogicInstances.TryGetValue(os, out instance))
             {
-                instance = new OSLogic(os);
-                OSLogicInstances.Add(os, instance);
                 return instance;
             }
-            OSLogicInstances.TryGetValue(os, out instance);
+            instance = new OSLogic(os);
+            OSLogicInstances.Add(os, instance);
             return instance;
+        }
+
+        public static void Cleanup(OS os)
+        {
+            OSLogicInstances.Remove(os);
         }
 
         private OSLogic(OS os)
