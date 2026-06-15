@@ -76,8 +76,6 @@ namespace Portable_Run_And_No_Restart
             float range = rightAnchor - leftAnchor;
             float third = range / 3f;
 
-            Debug.Log($"[ChangeUI] leftAnchor={leftAnchor:F4} rightAnchor={rightAnchor:F4} range={range:F4} third={third:F4}");
-
             portableButton = UIUtil.CreateTemplateButton(addProgramApp.m_addButton, "Portable", 0f, 0f, 0f, 0f);
             portableButton.onClick.AddListener(new UnityAction(SetPortableMode));
             RectTransform portableRT = portableButton.GetComponent<RectTransform>();
