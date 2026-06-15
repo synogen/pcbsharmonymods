@@ -50,15 +50,29 @@ namespace Portable_Run_And_No_Restart_Bepinex
 
         private void ChangeUI()
         {
-            RectTransform rt = addProgramApp.m_addButton.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(rt.sizeDelta.x - 78f, rt.sizeDelta.y);
-            RectTransform rt2 = addProgramApp.m_removeButton.GetComponent<RectTransform>();
-            rt2.sizeDelta = new Vector2(rt2.sizeDelta.x - 78f, rt2.sizeDelta.y);
-            addProgramApp.m_addButton.transform.localPosition = new Vector3(addProgramApp.m_addButton.transform.localPosition.x + 156f, addProgramApp.m_addButton.transform.localPosition.y, addProgramApp.m_addButton.transform.localPosition.z);
+            RectTransform addRT = addProgramApp.m_addButton.GetComponent<RectTransform>();
+            RectTransform removeRT = addProgramApp.m_removeButton.GetComponent<RectTransform>();
+
+            float addWidth = addRT.rect.width;
+            float removeWidth = removeRT.rect.width;
+            float spacing = 5f;
+            float totalWidth = addWidth + removeWidth + spacing;
+            float newWidth = (totalWidth - spacing * 2f) / 3f;
+            float delta = (addWidth - newWidth + removeWidth - newWidth) / 2f;
+
+            Vector3 addOrigPos = addRT.localPosition;
+            Vector3 removeOrigPos = removeRT.localPosition;
+
+            addRT.sizeDelta = new Vector2(addRT.sizeDelta.x - delta, addRT.sizeDelta.y);
+            addRT.localPosition = new Vector3(addOrigPos.x + delta * 2f, addOrigPos.y, addOrigPos.z);
+
+            removeRT.sizeDelta = new Vector2(removeRT.sizeDelta.x - delta, removeRT.sizeDelta.y);
+            removeRT.localPosition = new Vector3(removeOrigPos.x + delta, removeOrigPos.y, removeOrigPos.z);
+
             addProgramApp.m_addButton.GetComponentInChildren<Text>().text = "Add";
-            addProgramApp.m_removeButton.transform.localPosition = new Vector3(addProgramApp.m_removeButton.transform.localPosition.x + 78f, addProgramApp.m_removeButton.transform.localPosition.y, addProgramApp.m_removeButton.transform.localPosition.z);
             addProgramApp.m_removeButton.GetComponentInChildren<Text>().text = "Remove";
-            portableButton = UIUtil.CreateTemplateButton(addProgramApp.m_addButton, "Portable", 0f, 0f, -(addProgramApp.m_removeButton.GetComponent<RectTransform>().rect.width + 10f), 0f);
+
+            portableButton = UIUtil.CreateTemplateButton(addProgramApp.m_addButton, "Portable", 0f, 0f, -(newWidth + spacing), 0f);
             portableButton.onClick.AddListener(new UnityAction(SetPortableMode));
             SetPortableMode();
         }
