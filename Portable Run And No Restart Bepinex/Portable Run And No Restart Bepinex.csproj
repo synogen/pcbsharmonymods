@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <AssemblyName>Portable_Run_And_No_Restart</AssemblyName>
     <Product>Portable Run And No Restart Install</Product>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>
@@ -43,5 +43,11 @@
     <Reference Include="UnityEngine.UIElementsModule">
       <HintPath>E:\Games\PCBuildingSimulator\PCBS_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
