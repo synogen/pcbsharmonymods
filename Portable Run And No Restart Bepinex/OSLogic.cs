@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
-namespace Portable_Run_And_No_Restart
+namespace Portable_Run_And_No_Restart_Install
 {
     class OSLogic
     {

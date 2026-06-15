@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
-    <AssemblyName>Portable_Run_And_No_Restart</AssemblyName>
+    <AssemblyName>Portable_Run_And_No_Restart_Install</AssemblyName>
     <Product>Portable Run And No Restart Install</Product>
     <Version>1.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -12,7 +12,7 @@
       https://nuget.bepinex.dev/v3/index.json;
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
-    <RootNamespace>Portable_Run_And_No_Restart</RootNamespace>
+    <RootNamespace>Portable_Run_And_No_Restart_Install_Install</RootNamespace>
     </PropertyGroup>
 
   <ItemGroup>

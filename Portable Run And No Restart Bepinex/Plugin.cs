@@ -4,8 +4,9 @@ using HarmonyLib;
 using System.Reflection;
 using System;
 using System.Linq;
+using Portable_Run_And_No_Restart_Install_Install;
 
-namespace Portable_Run_And_No_Restart;
+namespace Portable_Run_And_No_Restart_Install;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 public class Plugin : BaseUnityPlugin
@@ -19,7 +20,7 @@ public class Plugin : BaseUnityPlugin
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
 
         Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_NAME);
-        PatchAllInNamespace(harmony, "Portable_Run_And_No_Restart");
+        PatchAllInNamespace(harmony, "Portable_Run_And_No_Restart_Install");
     }
 
     private void PatchAllInNamespace(Harmony harmony, string targetNamespace)

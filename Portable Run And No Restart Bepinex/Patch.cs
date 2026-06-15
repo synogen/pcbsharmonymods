@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 
-namespace Portable_Run_And_No_Restart
+namespace Portable_Run_And_No_Restart_Install
 {
     [HarmonyPatch(typeof(AddProgramApp))]
     [HarmonyPatch("Start")]
