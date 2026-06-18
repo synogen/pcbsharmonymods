@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Utils
@@ -8,7 +7,7 @@ namespace Utils
     {
         public static void SaveContentToJson<T>(T content, string filepath)
         {
-            string json = JsonConvert.SerializeObject(content);
+            string json = Json.Serialize(content);
             File.WriteAllText(filepath, json);
         }
 
@@ -17,7 +16,7 @@ namespace Utils
             if (File.Exists(filepath))
             {
                 string json = File.ReadAllText(filepath);
-                return JsonConvert.DeserializeObject<T>(json);
+                return Json.Deserialize<T>(json);
             }
             return default(T);
         }
