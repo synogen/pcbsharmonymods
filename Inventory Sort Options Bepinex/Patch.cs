@@ -24,10 +24,13 @@ namespace Inventory_Sort_Options
             {
                 try
                 {
-                    if (dropdownPrefab == null)
+                    if (dropdownPrefab == null || sortDropdown == null)
                     {
-                        AssetBundle uiBundle = AssetBundle.LoadFromFile(assetBundlePath);
-                        dropdownPrefab = uiBundle.LoadAsset<GameObject>("Dropdown");
+                        if (dropdownPrefab == null)
+                        {
+                            AssetBundle uiBundle = AssetBundle.LoadFromFile(assetBundlePath);
+                            dropdownPrefab = uiBundle.LoadAsset<GameObject>("Dropdown");
+                        }
 
                         RectTransform itemListRect = __instance.m_itemList.GetComponent<RectTransform>();
                         Transform dropdownParent = itemListRect.parent;
@@ -105,7 +108,7 @@ namespace Inventory_Sort_Options
                     ___m_itemsPendingCreation.Sort(
                         delegate (PartInstance a, PartInstance b)
                         {
-                            return a.GetPart().m_price < b.GetPart().m_price ? -1 : a.GetPart().m_price > b.GetPart().m_price ? 1 : 0;
+                            return a.GetResaleValue().CompareTo(b.GetResaleValue());
                         }
                     );
                     break;
@@ -113,7 +116,7 @@ namespace Inventory_Sort_Options
                     ___m_itemsPendingCreation.Sort(
                         delegate (PartInstance a, PartInstance b)
                         {
-                            return a.GetPart().m_price < b.GetPart().m_price ? 1 : a.GetPart().m_price > b.GetPart().m_price ? -1 : 0;
+                            return b.GetResaleValue().CompareTo(a.GetResaleValue());
                         }
                     );
                     break;
