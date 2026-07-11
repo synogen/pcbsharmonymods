@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Show Inventory Stock In Shop", "Show Inventory Stock In Shop\Show Inventory Stock In Shop.csproj", "{03CB2381-2033-438A-B4CD-88F57FDCFDBC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asset Replacer", "Texture Replacer\Asset Replacer.csproj", "{87E1E6BB-3763-457C-9413-8815406A66E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prefab Patcher", "Prefab Patcher\Prefab Patcher.csproj", "{34198F5D-1DA6-4998-BC3E-7A03E76C1CCF}"
@@ -15,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order Templates", "Order Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable Run And No Restart Install", "Portable Run And No Restart Install\Portable Run And No Restart Install.csproj", "{8EC7B682-4368-4CD7-9EE7-81C60AAA5109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{FAD7CB19-9BFE-4AA9-A0EB-DDB9FC7E9A03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "Utils\Utils.csproj", "{FAD7CB19-9BFE-4AA9-A0EB-DDB9FC7E9A03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory Sort Options", "Inventory Sort Options\Inventory Sort Options.csproj", "{2750C3E1-EB00-427F-9523-F263428CCCBA}"
 EndProject
@@ -33,16 +31,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restore Ram Compatibility",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faster 3D Mark", "Faster 3D Mark\Faster 3D Mark.csproj", "{3069EF35-7CE1-49C3-9882-32D0C4A0AE79}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portable Run And No Restart Bepinex", "Portable Run And No Restart Bepinex\Portable Run And No Restart Bepinex.csproj", "{816084DE-94BA-478D-BF8E-6D4EA2376E17}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory Sort Options Bepinex", "Inventory Sort Options Bepinex\Inventory Sort Options Bepinex.csproj", "{84EE2C05-F9C8-41A5-A19A-FF6B8A540949}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faster 3D Mark Bepinex", "Faster 3D Mark Bepinex\Faster 3D Mark Bepinex.csproj", "{C030DDEC-7203-445C-B15A-A2939490AF89}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asset Replacer Bepinex", "Texture Replacer Bepinex\Asset Replacer Bepinex.csproj", "{137956B5-D1DF-4B44-B0CA-D174E9BA6DA8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Show Detailed Inventory In Stock Bepinex", "Show Broken And Used Inventory In Shop\Show Detailed Inventory In Stock Bepinex.csproj", "{342C1D3E-0B6F-46BD-A361-75F2FE233440}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "legacy", "legacy", "{1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{03CB2381-2033-438A-B4CD-88F57FDCFDBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03CB2381-2033-438A-B4CD-88F57FDCFDBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03CB2381-2033-438A-B4CD-88F57FDCFDBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03CB2381-2033-438A-B4CD-88F57FDCFDBC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{87E1E6BB-3763-457C-9413-8815406A66E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{87E1E6BB-3763-457C-9413-8815406A66E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87E1E6BB-3763-457C-9413-8815406A66E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -99,9 +105,43 @@ Global
 		{3069EF35-7CE1-49C3-9882-32D0C4A0AE79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3069EF35-7CE1-49C3-9882-32D0C4A0AE79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3069EF35-7CE1-49C3-9882-32D0C4A0AE79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{816084DE-94BA-478D-BF8E-6D4EA2376E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{816084DE-94BA-478D-BF8E-6D4EA2376E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{816084DE-94BA-478D-BF8E-6D4EA2376E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{816084DE-94BA-478D-BF8E-6D4EA2376E17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84EE2C05-F9C8-41A5-A19A-FF6B8A540949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84EE2C05-F9C8-41A5-A19A-FF6B8A540949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84EE2C05-F9C8-41A5-A19A-FF6B8A540949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84EE2C05-F9C8-41A5-A19A-FF6B8A540949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C030DDEC-7203-445C-B15A-A2939490AF89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C030DDEC-7203-445C-B15A-A2939490AF89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C030DDEC-7203-445C-B15A-A2939490AF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C030DDEC-7203-445C-B15A-A2939490AF89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{137956B5-D1DF-4B44-B0CA-D174E9BA6DA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{137956B5-D1DF-4B44-B0CA-D174E9BA6DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{137956B5-D1DF-4B44-B0CA-D174E9BA6DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{137956B5-D1DF-4B44-B0CA-D174E9BA6DA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{342C1D3E-0B6F-46BD-A361-75F2FE233440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{342C1D3E-0B6F-46BD-A361-75F2FE233440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{342C1D3E-0B6F-46BD-A361-75F2FE233440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{342C1D3E-0B6F-46BD-A361-75F2FE233440}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{87E1E6BB-3763-457C-9413-8815406A66E6} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{34198F5D-1DA6-4998-BC3E-7A03E76C1CCF} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{8EE13AE3-3D1C-438A-891D-A4A18459C742} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{F11214EF-0F36-499A-81B1-320EAE493CD9} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{8EC7B682-4368-4CD7-9EE7-81C60AAA5109} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{2750C3E1-EB00-427F-9523-F263428CCCBA} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{ED79A837-78F0-4C19-8546-7B1EA9578AB0} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{5EBE4466-AABD-4E08-8B12-FC356147C1C8} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{2654A115-B2AC-447F-B322-C018DCF81437} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{9DD7546D-F7A3-4388-AADF-D51BB468A920} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{D6902FFA-3F24-4C72-8393-F85D2276F8FE} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
+		{3069EF35-7CE1-49C3-9882-32D0C4A0AE79} = {1991C4B5-1AB7-4BED-80CB-E31E1BE32BE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A062AE1A-7A1F-4695-B78C-84D7173A08B8}
